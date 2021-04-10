@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Example from material-ui.com
 export default function ButtonAppBar() {
   const classes = useStyles();
 
@@ -30,7 +31,7 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            RankMyWriting
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
