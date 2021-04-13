@@ -1,12 +1,12 @@
 import React from 'react'
-import ButtonAppBar from './ButtonAppBar'
+import MyAppBar from './MyAppBar'
 import Form from './Form'
 
 function App() {
   return (
     <>
       <header>
-       <ButtonAppBar/>
+       <MyAppBar/>
       </header>
       <main>
         <Form/>
