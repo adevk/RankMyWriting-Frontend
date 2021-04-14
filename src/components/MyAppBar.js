@@ -41,8 +41,7 @@ export default function MyAppBar() {
           </nav>
             <Button
               variant='contained'
-              color="inherit"
-              color='secondary'
+              color="secondary"
               component={RouterLink} to='/login'>
                 Login
             </Button>
