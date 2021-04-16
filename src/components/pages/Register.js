@@ -1,16 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import Link from '@material-ui/core/Link'
-import Box from '@material-ui/core/Box'
-import { Copyright } from '@material-ui/icons'
-import Checkbox from '@material-ui/core/Checkbox'
+import axios from 'axios'
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,21 +23,44 @@ const useStyles = makeStyles((theme) => ({
 export default function Register () {
   const classes = useStyles()
 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const submitHandler = async (e) => {
+    e.preventDefault()
+
+    const userObject = {
+      username: username,
+      password: password
+    };
+
+    axios.post('http://localhost:7003/create', userObject)
+      .then((res) => {
+          console.log(res.data)
+      }).catch((error) => {
+          console.log(error.response.data.message)
+      });
+   
+  }
+
+
   return (
     <Container className={classes.container} maxWidth="xs">
         <Typography component="h1" variant="h5" align='center'>
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={submitHandler}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
+            id="username"
+            label="Username"
+            name="username"
             autoFocus
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -52,6 +71,8 @@ export default function Register () {
             label="Password"
             type="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Grid container justify='center'>
             <Grid item>
