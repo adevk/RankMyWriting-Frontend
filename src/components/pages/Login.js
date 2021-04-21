@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink } from 'react-router-dom'
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,8 +23,37 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Register () {
+export default function Login () {
   const classes = useStyles()
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const submitHandler = async (e) => {
+    e.preventDefault()
+
+    const userObject = {
+      username: username,
+      password: password
+    };
+
+    axios.post(
+      'http://localhost:7003/login', 
+      userObject,
+      {
+        header: {
+          "Content-Type": "application/json",
+        }
+      })
+      .then((res) => {
+        //console.log(res)
+        const token = res.data.token
+        localStorage.setItem('authToken', token)
+      }).catch((error) => {
+        console.log(error.response.data.message)
+      });
+   
+  }
 
   return (
     <Container className={classes.container} maxWidth="xs">
@@ -40,39 +70,43 @@ export default function Register () {
           </RouterLink>
         </Grid>
       </Grid>
-      <form className={classes.form} noValidate>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoFocus
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-        />
-        <Grid container justify='center'>
-          <Grid item>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}>
-              Log in
-            </Button>
+      <form className={classes.form} noValidate onSubmit={submitHandler}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoFocus
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Grid container justify='center'>
+            <Grid item>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}>
+                  Log in
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
+        </form>
     </Container>
   );
 }
