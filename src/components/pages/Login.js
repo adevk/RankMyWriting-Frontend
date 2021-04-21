@@ -37,21 +37,22 @@ export default function Login () {
       password: password
     };
 
-    axios.post(
-      'http://localhost:7003/login', 
-      userObject,
-      {
-        header: {
-          "Content-Type": "application/json",
+    try {
+      const response = await axios.post(
+        'http://localhost:7003/login', 
+        userObject,
+        {
+          header: {
+            "Content-Type": "application/json",
+          }
         }
-      })
-      .then((res) => {
-        //console.log(res)
-        const token = res.data.token
-        localStorage.setItem('authToken', token)
-      }).catch((error) => {
-        console.log(error.response.data.message)
-      });
+      )
+      const token = response.data.token
+      localStorage.setItem('authToken', token)
+    } catch (error) {
+      console.log(error.response.data.message)
+    }
+    
    
   }
 
