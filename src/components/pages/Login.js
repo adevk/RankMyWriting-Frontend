@@ -1,12 +1,13 @@
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
+import UserContext from '../UserContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,8 @@ export default function Login () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
+
   const submitHandler = async (e) => {
     e.preventDefault()
 
@@ -49,6 +52,7 @@ export default function Login () {
       )
       const token = response.data.token
       localStorage.setItem('authToken', token)
+      setIsLoggedIn(true)
     } catch (error) {
       console.log(error.response.data.message)
     }
@@ -56,7 +60,9 @@ export default function Login () {
    
   }
 
-  return (
+  return isLoggedIn ? (
+    <Redirect to='/'/>
+  ) : (
     <Container className={classes.container} maxWidth="xs">
       <Typography component="h1" variant="h5" align='center' gutterBottom>
         Log in
@@ -109,5 +115,5 @@ export default function Login () {
           </Grid>
         </form>
     </Container>
-  );
+  )
 }

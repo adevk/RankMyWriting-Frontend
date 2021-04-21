@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import axios from 'axios'
+import UserContext from '../UserContext.js'
+import { Redirect } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +28,8 @@ export default function Register () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
+
   const submitHandler = async (e) => {
     e.preventDefault()
 
@@ -43,8 +47,9 @@ export default function Register () {
    
   }
 
-
-  return (
+  return isLoggedIn ? (
+    <Redirect to='/'/>
+  ) : (
     <Container className={classes.container} maxWidth="xs">
         <Typography component="h1" variant="h5" align='center'>
           Sign up
@@ -87,5 +92,5 @@ export default function Register () {
           </Grid>
         </form>
     </Container>
-  );
+  )
 }
