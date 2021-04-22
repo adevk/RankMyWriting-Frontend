@@ -3,6 +3,7 @@ import MyAppBar from './components/MyAppBar.js'
 import Home from './components/pages/Home.js'
 import Register from './components/pages/Register.js'
 import Login from './components/pages/Login.js'
+import Dashboard from './components/pages/Dashboard.js'
 import UserContext from './components/UserContext.js'
 
 import {
@@ -32,6 +33,9 @@ function App() {
               </Route>
               <Route path="/register">
                 <Register/>
+              </Route>
+              <Route path="/dashboard">
+                <Dashboard/>
               </Route>
               <Route path="/">
                 <Home />
