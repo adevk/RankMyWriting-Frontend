@@ -1,10 +1,9 @@
-import { React, useState } from 'react'
+import { React } from 'react'
 import MyAppBar from './components/MyAppBar.js'
 import Home from './components/pages/Home.js'
 import Register from './components/pages/Register.js'
 import Login from './components/pages/Login.js'
 import Dashboard from './components/pages/Dashboard.js'
-import UserContext from './components/UserContext.js'
 
 import {
   BrowserRouter as Router,
@@ -13,15 +12,8 @@ import {
 } from "react-router-dom";
 
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const user = {
-    isLoggedIn,
-    setIsLoggedIn
-  }
   
   return (
-    <UserContext.Provider value={ user }>
       <Router>
           <header>
             <MyAppBar/>
@@ -43,7 +35,6 @@ function App() {
             </Switch>
           </main>
       </Router>
-    </UserContext.Provider>
   )
 }
 

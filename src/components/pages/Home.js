@@ -1,4 +1,4 @@
-import { React, useContext } from 'react';
+import { React } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {Button} from "@material-ui/core";
@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink } from 'react-router-dom'
-import UserContext from '../UserContext';
+import { isLoggedIn } from '../../helper.js'
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -17,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
-
   return (
     <div className={classes.heroContent}>
       <Container maxWidth='sm'>
@@ -27,7 +25,7 @@ export default function Home() {
         <Grid container justify="center">
           <Grid item>
             { // Only show register button if user is not logged in.
-              !isLoggedIn &&
+              !isLoggedIn() &&
               <Button variant='contained' 
                 color='primary' 
                 component={RouterLink} 

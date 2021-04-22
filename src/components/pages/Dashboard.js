@@ -1,41 +1,42 @@
-import { React, useState, useContext, useEffect } from 'react';
-import { Link as RouterLink, Redirect } from 'react-router-dom'
+import { React, useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
-import UserContext from '../UserContext';
-
+import { isLoggedIn } from '../../helper.js'
 
 export default function Dashboard () {
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
   const [dashboardMessage, setDashboardMessage] = useState('')
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:7003/dashboard', 
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`
-            }
-          }
-        )
-        const userData = response.data
-        setDashboardMessage(`Hello ${userData.username}`)
-      } catch (error) {
-        localStorage.removeItem("authToken");
-        setIsLoggedIn(false)
-        setDashboardMessage('Error occured. Please login again.')
-      }
-    };
-    if (isLoggedIn) {
+    
+    if (isLoggedIn()) {
       fetchUserData();
     }
   }, [])
 
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:7003/dashboard', 
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+          }
+        }
+      )
+      const userData = response.data.userData
+      if (!dashboardMessage) {
+        setDashboardMessage(`Hello ${userData.username}`)
+      }
+    } catch (error) {
+      localStorage.removeItem("authToken");
+      setDashboardMessage('Error occured. Please login again.')
+    }
+  }
 
-  return !isLoggedIn ? (
+
+  return !isLoggedIn() ? (
     <Redirect to='/'/>
   ) : (
    <h1>{ dashboardMessage }</h1>

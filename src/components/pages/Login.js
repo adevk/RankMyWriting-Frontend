@@ -1,4 +1,4 @@
-import { React, useState, useContext } from 'react';
+import { React, useState } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
@@ -7,8 +7,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
-import UserContext from '../UserContext';
-
+import { isLoggedIn } from '../../helper.js'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,8 +29,6 @@ export default function Login () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
-
   const submitHandler = async (e) => {
     e.preventDefault()
 
@@ -52,7 +49,8 @@ export default function Login () {
       )
       const token = response.data.token
       localStorage.setItem('authToken', token)
-      setIsLoggedIn(true)
+      // Refresh page and update states.
+      window.location.reload(false)
     } catch (error) {
       console.log(error.response.data.message)
     }
@@ -60,7 +58,7 @@ export default function Login () {
    
   }
 
-  return isLoggedIn ? (
+  return isLoggedIn() ? (
     <Redirect to='/'/>
   ) : (
     <Container className={classes.container} maxWidth="xs">

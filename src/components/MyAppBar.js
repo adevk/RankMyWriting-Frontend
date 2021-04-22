@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from 'react';
+import { React } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,8 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
-
-import UserContext from './UserContext.js'
+import { isLoggedIn } from '../helper.js'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,19 +24,10 @@ const useStyles = makeStyles((theme) => ({
 export default function MyAppBar() {
   const classes = useStyles();
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
-
-  useEffect(() => {
-    if (localStorage.getItem('authToken')) {
-      setIsLoggedIn(true)
-    } else {
-      setIsLoggedIn(false)
-    }
-  },[])
-
   const logoutHandler = () => {
     localStorage.removeItem('authToken')
-    setIsLoggedIn(false)
+    // Refresh page and update states.
+    window.location.reload(false)
   }
 
   return (
@@ -56,7 +46,7 @@ export default function MyAppBar() {
             </Link>
           </nav>
             { // If user is logged in, show logout button; otherwise, show login button.
-              isLoggedIn ? (
+              isLoggedIn() ? (
                 <Button
                   onClick={ logoutHandler }
                   variant='contained'
