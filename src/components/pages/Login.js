@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+
 export default function Login () {
   const classes = useStyles()
 
@@ -39,7 +41,7 @@ export default function Login () {
 
     try {
       const response = await axios.post(
-        'http://localhost:7003/login', 
+        `${apiURL}/login`, 
         userObject,
         {
           header: {

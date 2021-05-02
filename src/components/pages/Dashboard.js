@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { isLoggedIn } from '../../helper.js'
 
+const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+
 export default function Dashboard () {
 
   const [dashboardMessage, setDashboardMessage] = useState('')
@@ -17,7 +19,7 @@ export default function Dashboard () {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:7003/dashboard', 
+        `${apiURL}/dashboard`, 
         {
           headers: {
             "Content-Type": "application/json",

@@ -22,7 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+
+//TODO Add feedback on registration (maybe redirection?)
+
 export default function Register () {
+
   const classes = useStyles()
 
   const [username, setUsername] = useState('')
@@ -36,7 +41,7 @@ export default function Register () {
       password: password
     };
 
-    axios.post('http://localhost:7003/register', userObject)
+    axios.post(`${apiURL}/register`, userObject)
       .then((res) => {
           console.log(res.data)
       }).catch((error) => {
