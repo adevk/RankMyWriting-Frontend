@@ -41,7 +41,7 @@ export default function Login () {
 
     try {
       const response = await axios.post(
-        `${apiURL}/login`, 
+        `${apiURL}/users/login`, 
         userObject,
         {
           header: {

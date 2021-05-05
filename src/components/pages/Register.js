@@ -41,7 +41,7 @@ export default function Register () {
       password: password
     };
 
-    axios.post(`${apiURL}/register`, userObject)
+    axios.post(`${apiURL}/users/register`, userObject)
       .then((res) => {
           console.log(res.data)
       }).catch((error) => {
