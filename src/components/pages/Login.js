@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { isLoggedIn } from '../../helper.js'
+import { useHistory } from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,6 +29,8 @@ const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.l
 
 export default function Login () {
   const classes = useStyles()
+
+  const history = useHistory()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -51,6 +55,7 @@ export default function Login () {
       )
       const token = response.data.token
       localStorage.setItem('authToken', token)
+      history.push('/dashboard')
       // Refresh page and update states.
       window.location.reload(false)
     } catch (error) {
