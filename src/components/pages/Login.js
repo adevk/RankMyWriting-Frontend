@@ -10,6 +10,7 @@ import axios from 'axios'
 import { isLoggedIn } from '../../helper.js'
 import { useHistory } from 'react-router-dom'
 
+//TODO Give feedback messages on failed login.
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,7 +46,7 @@ export default function Login () {
 
     try {
       const response = await axios.post(
-        `${apiURL}/users/login`, 
+        `${apiURL}/users/login`,
         userObject,
         {
           header: {
@@ -59,10 +60,10 @@ export default function Login () {
       // Refresh page and update states.
       window.location.reload(false)
     } catch (error) {
-      console.log(error.response.data.message)
+      error.response && console.log(error.response.data.message)
     }
-    
-   
+
+
   }
 
   return isLoggedIn() ? (

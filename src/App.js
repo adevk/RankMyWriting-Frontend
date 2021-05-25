@@ -11,11 +11,32 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import { createMuiTheme } from '@material-ui/core'
+import ThemeProvider from '@material-ui/styles/ThemeProvider'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#432EEA',
+    },
+    secondary: {
+      main: '#25D36A',
+    },
+  },
+  overrides: {
+    MuiButton: {
+      root: {
+        borderRadius: 50,
+      },
+    },
+  },
+})
 
 function App() {
-  
+
   return (
       <Router>
+        <ThemeProvider theme={theme}>
           <header>
             <MyAppBar/>
           </header>
@@ -38,6 +59,7 @@ function App() {
               </Route>
             </Switch>
           </main>
+        </ThemeProvider>
       </Router>
   )
 }
