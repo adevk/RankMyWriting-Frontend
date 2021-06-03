@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import { createMuiTheme } from '@material-ui/core'
 import ThemeProvider from '@material-ui/styles/ThemeProvider'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 const theme = createMuiTheme({
   palette: {
@@ -35,8 +36,9 @@ const theme = createMuiTheme({
 function App() {
 
   return (
+    <><CssBaseline/>
+      <ThemeProvider theme={theme}>
       <Router>
-        <ThemeProvider theme={theme}>
           <header>
             <MyAppBar/>
           </header>
@@ -59,8 +61,9 @@ function App() {
               </Route>
             </Switch>
           </main>
-        </ThemeProvider>
       </Router>
+      </ThemeProvider>
+    </>
   )
 }
 
