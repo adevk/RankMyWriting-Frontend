@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     padding: theme.spacing(4),
+    width: '100%'
   },
   button: {
   },
@@ -30,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1)
   },
   signupLink: {
-    marginLeft: theme.spacing(0.5)
+    marginLeft: theme.spacing(0.5),
+    textDecoration: 'none'
   }
 }));
 
@@ -60,8 +62,8 @@ export default function Home() {
           }
             <div className={classes.belowButton}>
               <Typography component="h2" variant='subtitle1' align='center'>No account?</Typography>
-              <RouterLink to='/register'>
-                <Typography className={classes.signupLink} component="h2" variant='subtitle1' align='center' color='secondary'>Signup now.</Typography>
+              <RouterLink to='/register' className={classes.signupLink}>
+                <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Signup now.</Typography>
               </RouterLink>
             </div>
         </Grid>
