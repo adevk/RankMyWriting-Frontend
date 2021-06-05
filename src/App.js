@@ -23,6 +23,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#25D36A',
     },
+    background: {
+      default: '#ffffff'
+    }
   },
   overrides: {
     MuiButton: {
@@ -36,8 +39,9 @@ const theme = createMuiTheme({
 function App() {
 
   return (
-    <><CssBaseline/>
+    <>
       <ThemeProvider theme={theme}>
+      <CssBaseline/>
       <Router>
           <header>
             <MyAppBar/>

@@ -32,9 +32,9 @@ export default function MyAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position='static' color='background'>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant='h6' className={classes.title}>
             RankMyWriting
           </Typography>
           <nav>
@@ -63,7 +63,7 @@ export default function MyAppBar() {
                 </Button>
               )
             }
-            
+
         </Toolbar>
       </AppBar>
     </div>
