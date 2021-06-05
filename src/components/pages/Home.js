@@ -61,9 +61,9 @@ export default function Home() {
             </Button>
           }
             <div className={classes.belowButton}>
-              <Typography component="h2" variant='subtitle1' align='center'>No account?</Typography>
+              <Typography component="h2" variant='subtitle1' align='center'>Already have an account?</Typography>
               <RouterLink to='/register' className={classes.signupLink}>
-                <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Signup now.</Typography>
+                <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Sign in.</Typography>
               </RouterLink>
             </div>
         </Grid>
