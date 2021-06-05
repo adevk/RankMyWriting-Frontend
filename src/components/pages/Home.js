@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink } from 'react-router-dom'
-import { isLoggedIn } from '../../helper.js'
+import { isSignedIn } from '../../helper.js'
 import image from '../../images/homepage_image.svg'
 import Hidden from '@material-ui/core/Hidden'
 
@@ -51,7 +51,7 @@ export default function Home() {
           <Typography variant='h3' align='center' gutterBottom>Wondering if your writing is good enough?</Typography>
           <Typography variant='body1' align='center' paragraph gutterBottom>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
           { // Only show register button if user is not logged in.
-            !isLoggedIn() &&
+            !isSignedIn() &&
             <Button variant='contained'
                     color='primary'
                     component={RouterLink}

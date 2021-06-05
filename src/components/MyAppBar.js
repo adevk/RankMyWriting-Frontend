@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
-import { isLoggedIn } from '../helper.js'
+import { isSignedIn } from '../helper.js'
+import { useLocation } from 'react-router'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,12 +18,16 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     marginRight: theme.spacing(2),
-    color: 'white'
+    color: 'primary'
   }
 }));
 
+
+
 export default function MyAppBar() {
-  const classes = useStyles();
+  const classes = useStyles()
+  const location = useLocation()
+  console.log(location.pathname)
 
   const logoutHandler = () => {
     localStorage.removeItem('authToken')
@@ -30,9 +35,32 @@ export default function MyAppBar() {
     window.location.reload(false)
   }
 
+  const renderButton = () => {
+    // If user is not signed in, render sign-in button.
+    if (!isSignedIn()) {
+      // Don't render button if current page is sign-in page.
+      if (location.pathname === '/login') return
+      return <Button
+        variant='contained'
+        color='primary'
+        component={RouterLink} to='/login'>
+        Sign in
+      </Button>
+    }
+
+    // If user is signed in, render logout button.
+    return <Button
+      onClick={ logoutHandler }
+      variant='contained'
+      color='primary'
+      component={RouterLink} to='/'>
+      Sign out
+    </Button>
+  }
+
   return (
     <div className={classes.root}>
-      <AppBar position='static' color='background'>
+      <AppBar position='static' color='default'>
         <Toolbar>
           <Typography variant='h6' className={classes.title}>
             RankMyWriting
@@ -45,25 +73,7 @@ export default function MyAppBar() {
                 Home
             </Link>
           </nav>
-            { // If user is logged in, show logout button; otherwise, show login button.
-              isLoggedIn() ? (
-                <Button
-                  onClick={ logoutHandler }
-                  variant='contained'
-                  color="secondary"
-                  component={RouterLink} to='/'>
-                    Logout
-                </Button>
-              ) : (
-                <Button
-                  variant='contained'
-                  color="secondary"
-                  component={RouterLink} to='/login'>
-                    Login
-                </Button>
-              )
-            }
-
+          {renderButton()}
         </Toolbar>
       </AppBar>
     </div>

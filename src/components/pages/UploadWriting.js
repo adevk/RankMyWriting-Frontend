@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router'
-import { isLoggedIn } from '../../helper.js'
+import { isSignedIn } from '../../helper.js'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '@material-ui/core'
 import { Link as RouterLink } from 'react-router-dom'
@@ -72,7 +72,7 @@ export default function UploadWriting() {
     }
   }
 
-  return isLoggedIn() ? (
+  return isSignedIn() ? (
       <Container maxWidth='md' className={classes.root}>
         <TextField
           label='Your text'

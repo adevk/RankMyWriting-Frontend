@@ -1,3 +1,3 @@
-export const isLoggedIn = () => {
+export const isSignedIn = () => {
   return localStorage.getItem('authToken')
 }

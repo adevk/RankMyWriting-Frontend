@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import axios from 'axios'
 import { Redirect } from 'react-router';
-import { isLoggedIn } from '../../helper.js'
+import { isSignedIn } from '../../helper.js'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,10 +47,10 @@ export default function Register () {
       }).catch((error) => {
           console.log(error.response.data.message)
       });
-   
+
   }
 
-  return isLoggedIn() ? (
+  return isSignedIn() ? (
     <Redirect to='/'/>
   ) : (
     <Container className={classes.container} maxWidth="xs">

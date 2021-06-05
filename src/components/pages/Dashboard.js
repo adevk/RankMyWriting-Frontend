@@ -8,7 +8,7 @@ import { Divider, Grid } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import TextCard from '../TextCard'
 import Link from '@material-ui/core/Link'
-import { isLoggedIn } from '../../helper'
+import { isSignedIn } from '../../helper'
 import { Redirect } from 'react-router'
 
 const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
@@ -50,7 +50,7 @@ export default function Dashboard () {
     }
   }
 
-  return !isLoggedIn() ? (
+  return !isSignedIn() ? (
       <Redirect to='/'/>
     ) : (
     <Container maxWidth="lg">

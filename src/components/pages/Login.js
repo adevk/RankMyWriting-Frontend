@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
-import { isLoggedIn } from '../../helper.js'
+import { isSignedIn } from '../../helper.js'
 import { useHistory } from 'react-router-dom'
 
 //TODO Give feedback messages on failed login.
@@ -66,7 +66,7 @@ export default function Login () {
 
   }
 
-  return isLoggedIn() ? (
+  return isSignedIn() ? (
     <Redirect to='/'/>
   ) : (
     <Container className={classes.container} maxWidth="xs">
