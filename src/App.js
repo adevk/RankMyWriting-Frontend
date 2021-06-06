@@ -15,22 +15,24 @@ import { createMuiTheme } from '@material-ui/core'
 import ThemeProvider from '@material-ui/styles/ThemeProvider'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-const theme = createMuiTheme({
+const appTheme = createMuiTheme({
   palette: {
     primary: {
-      main: '#432EEA',
+      main: '#432EEA'
     },
     secondary: {
       main: '#25D36A',
     },
     background: {
       default: '#ffffff'
-    }
+    },
+    tonalOffset: 0.2
   },
   overrides: {
     MuiButton: {
       root: {
         borderRadius: 50,
+        fontWeight: 600
       },
     },
   },
@@ -40,7 +42,7 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={appTheme}>
       <CssBaseline/>
       <Router>
           <header>

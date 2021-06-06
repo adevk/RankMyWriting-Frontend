@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     marginTop: theme.spacing(2),
   },
+  link: {
+    textDecoration: 'none'
+  },
   subheader: {
   }
 }));
@@ -71,14 +74,14 @@ export default function Login () {
   ) : (
     <Container className={classes.container} maxWidth="xs">
       <Typography component="h1" variant="h5" align='center' gutterBottom>
-        Log in
+        Sign in
       </Typography>
       <Grid container justify='center' spacing={1}>
         <Grid item>
           <Typography component="h2" variant='subtitle1' align='center'>No account?</Typography>
         </Grid>
         <Grid item>
-          <RouterLink to='/register'>
+          <RouterLink to='/register' className={classes.link}>
             <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Signup now.</Typography>
           </RouterLink>
         </Grid>
@@ -115,7 +118,7 @@ export default function Login () {
                 variant="contained"
                 color="primary"
                 className={classes.submit}>
-                  Log in
+                  Sign in
               </Button>
             </Grid>
           </Grid>

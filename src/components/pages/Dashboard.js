@@ -86,33 +86,4 @@ export default function Dashboard () {
 
     </Container>
   )
-
-
-
-
-  // return !isLoggedIn() ? (
-  //   <Redirect to='/'/>
-  // ) : (
-  //   <Container maxWidth="lg">
-  //
-  //     <div id="topbar" className={classes.topBar}>
-  //       <Typography variant="h6" className={classes.title}>
-  //         Points: 23
-  //       </Typography>
-  //
-  //       <RouterLink to='/upload-writing'>
-  //         <Button variant="contained" rounded color="primary" disableElevation>
-  //           Add Writing
-  //         </Button>
-  //         {/*<button*/}
-  //         {/*  className="block bg-primary text-white rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 py-2 px-10">*/}
-  //         {/*  Add Writing*/}
-  //         {/*</button>*/}
-  //       </RouterLink>
-  //     </div>
-  //
-  //     <Divider/>
-  //
-  //   </Container>
-  // )
 }
