@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Redirect } from 'react-router'
+import { Redirect, useHistory } from 'react-router'
 import { isSignedIn } from '../../helper.js'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '@material-ui/core'
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UploadWriting() {
   const classes = useStyles()
+  const history = useHistory()
 
   const [text, setText] = useState('')
   const [title, setTitle] = useState('')
@@ -67,6 +68,7 @@ export default function UploadWriting() {
         }
       )
       console.log(response.data)
+      history.push('/dashboard')
     } catch (error) {
       console.log(error.response.data.message)
     }
