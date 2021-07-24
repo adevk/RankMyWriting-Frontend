@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
-import { Redirect } from 'react-router';
-import { isSignedIn } from '../../helper.js'
+import { useHistory } from 'react-router-dom'
 
+import { useAppContext } from '../../../AppContext.js'
+import { isSignedIn } from '../../../helper.js'
+
+//TODO Give feedback messages on failed login.
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,15 +24,19 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     marginTop: theme.spacing(2),
   },
+  link: {
+    textDecoration: 'none'
+  },
+  subheader: {
+  }
 }));
 
-const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
 
-//TODO Add feedback on registration (maybe redirection?)
 
-export default function Register () {
-
+export default function Login () {
+  const appContext = useAppContext()
   const classes = useStyles()
+  const history = useHistory()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -41,12 +49,25 @@ export default function Register () {
       password: password
     };
 
-    axios.post(`${apiURL}/users/register`, userObject)
-      .then((res) => {
-          console.log(res.data)
-      }).catch((error) => {
-          console.log(error.response.data.message)
-      });
+    try {
+      const response = await axios.post(
+        `${appContext.apiURL}/users/login`,
+        userObject,
+        {
+          header: {
+            "Content-Type": "application/json",
+          }
+        }
+      )
+      const token = response.data.token
+      localStorage.setItem('authToken', token)
+      history.push('/dashboard')
+      // Refresh page and update states.
+      window.location.reload(false)
+    } catch (error) {
+      error.response && console.log(error.response.data.message)
+    }
+
 
   }
 
@@ -54,10 +75,20 @@ export default function Register () {
     <Redirect to='/'/>
   ) : (
     <Container className={classes.container} maxWidth="xs">
-        <Typography component="h1" variant="h5" align='center'>
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={submitHandler}>
+      <Typography component="h1" variant="h5" align='center' gutterBottom>
+        Sign in
+      </Typography>
+      <Grid container justify='center' spacing={1}>
+        <Grid item>
+          <Typography component="h2" variant='subtitle1' align='center'>No account?</Typography>
+        </Grid>
+        <Grid item>
+          <RouterLink to='/register' className={classes.link}>
+            <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Signup now.</Typography>
+          </RouterLink>
+        </Grid>
+      </Grid>
+      <form className={classes.form} noValidate onSubmit={submitHandler}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -89,7 +120,7 @@ export default function Register () {
                 variant="contained"
                 color="primary"
                 className={classes.submit}>
-                  Sign up
+                  Sign in
               </Button>
             </Grid>
           </Grid>

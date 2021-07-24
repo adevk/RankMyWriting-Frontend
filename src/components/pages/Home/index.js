@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink } from 'react-router-dom'
-import { isSignedIn } from '../../helper.js'
-import image from '../../images/homepage_image.svg'
+import { isSignedIn } from '../../../helper.js'
+import image from './presentation_image.svg'
 import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,7 @@ export default function Home() {
           }
             <div className={classes.belowButton}>
               <Typography component="h2" variant='subtitle1' align='center'>Already have an account?</Typography>
-              <RouterLink to='/register' className={classes.signupLink}>
+              <RouterLink to='/login' className={classes.signupLink}>
                 <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Sign in.</Typography>
               </RouterLink>
             </div>
