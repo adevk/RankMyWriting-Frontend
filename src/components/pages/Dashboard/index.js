@@ -6,12 +6,12 @@ import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { Divider, Grid } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
-import TextCard from '../TextCard'
 import Link from '@material-ui/core/Link'
-import { isSignedIn } from '../../helper'
 import { Redirect } from 'react-router'
 
-const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+import { isSignedIn } from '../../../helper'
+import TextCard from '../../WritingCard'
+import { useAppContext } from '../../../AppContext.js'
 
 const useStyles = makeStyles((theme) => ({
   topBar: {
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard () {
+  const appContext = useAppContext()
   const classes = useStyles()
 
   const [writings, setWritings] = useState([])
@@ -34,7 +35,7 @@ export default function Dashboard () {
   const fetchWritings = async () => {
     try {
       const response = await axios.get(
-        `${apiURL}/writings/retrieve`,
+        `${appContext.apiURL}/writings/retrieve`,
         {
           headers: {
             "Content-Type": "application/json",

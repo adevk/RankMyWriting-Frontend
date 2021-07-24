@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Redirect, useHistory } from 'react-router'
-import { isSignedIn } from '../../helper.js'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '@material-ui/core'
 import { Link as RouterLink } from 'react-router-dom'
@@ -12,8 +11,8 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 
-
-const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+import { isSignedIn } from '../../../helper.js'
+import { useAppContext } from '../../../AppContext.js'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UploadWriting() {
+  const appContext = useAppContext()
   const classes = useStyles()
   const history = useHistory()
 
@@ -58,7 +58,7 @@ export default function UploadWriting() {
 
     try {
       const response = await axios.post(
-        `${apiURL}/writings/create`,
+        `${appContext.apiURL}/writings/create`,
         writingObject,
         {
           headers: {
