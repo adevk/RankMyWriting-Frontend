@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
-import { Redirect, useHistory } from 'react-router'
+import { Redirect } from 'react-router'
 import Typography from '@material-ui/core/Typography'
 import { Button } from '@material-ui/core'
 import { Link as RouterLink } from 'react-router-dom'
@@ -11,7 +10,10 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 
-import { isSignedIn } from '../../../helper.js'
+import axios from 'axios'
+import { withSnackbar } from 'notistack';
+
+import { isSignedIn } from '../../../helper-functions.js'
 import { useAppContext } from '../../../AppContext.js'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,10 +35,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function UploadWriting() {
+const UploadWriting = function (props) {
   const appContext = useAppContext()
   const classes = useStyles()
-  const history = useHistory()
 
   const [text, setText] = useState('')
   const [title, setTitle] = useState('')
@@ -44,11 +45,6 @@ export default function UploadWriting() {
 
   const submitHandler = async (e) => {
     e.preventDefault()
-
-    console.log('Text: ' + text)
-    console.log('Title: ' + title)
-    // console.log('Category: ' + category)
-    console.log('Checked: ' + active)
 
     const writingObject = {
       title: title,
@@ -67,11 +63,27 @@ export default function UploadWriting() {
           }
         }
       )
-      console.log(response.data)
-      history.push('/dashboard')
+      resetStates()
+      showSnackBar('success', response.data.message)
     } catch (error) {
-      console.log(error.response.data.message)
+      showSnackBar('error', error.response.data.message)
     }
+  }
+
+  const showSnackBar = (variant, message) => {
+    props.enqueueSnackbar(message, {
+      variant: variant,
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center'
+      }
+    })
+  }
+
+  const resetStates = () => {
+    setText('')
+    setTitle('')
+    setActive(false)
   }
 
   return isSignedIn() ? (
@@ -96,6 +108,7 @@ export default function UploadWriting() {
               variant='outlined'
               label='Title'
               required
+              value={title}
               onChange={(e) => setTitle(e.target.value)}/>
           </div>
 
@@ -126,3 +139,5 @@ export default function UploadWriting() {
       <Redirect to="/" />
     )
 }
+
+export default withSnackbar(UploadWriting)

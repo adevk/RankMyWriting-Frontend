@@ -7,8 +7,9 @@ import { Box, Button, Divider, Grid } from '@material-ui/core'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 
 import axios from 'axios'
+import { withSnackbar } from 'notistack';
 
-import { isSignedIn } from '../../../helper'
+import { isSignedIn } from '../../../helper-functions.js'
 import { reducer } from './reducer'
 import { useAppContext } from '../../../AppContext.js'
 import { ScoreSlider } from './ScoreSlider.js'
@@ -39,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Vote () {
+function Vote (props) {
   const [state, dispatch] = useReducer(reducer, defaultState)
-  const [writing, setWriting] = useState({})
+  const [writing, setWriting] = useState(null)
   const appContext = useAppContext()
   const classes = useStyles()
 
@@ -61,8 +62,9 @@ export default function Vote () {
         }
       )
       const randomWriting = response.data.data
-      console.log(response.data.message)
-      setWriting(randomWriting)
+      if (randomWriting) {
+        setWriting(randomWriting)
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -92,11 +94,22 @@ export default function Vote () {
         }
       )
       dispatch({type: 'RESET_STATES'})
-      console.log(response.data.message)
+      showSnackBar('success', 'You have successfully casted a vote on the writing.')
       await fetchRandomWritingForVoting()
     } catch (error) {
-      console.log(error.message)
+      showSnackBar('error', error.response.data.message)
+      console.log(error.response.data.message)
     }
+  }
+
+  const showSnackBar = (variant, message) => {
+    props.enqueueSnackbar(message, {
+      variant: variant,
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center'
+      }
+    })
   }
 
 
@@ -106,14 +119,26 @@ export default function Vote () {
     return stateVariable ? 'secondary' : 'primary'
   }
 
-  return !isSignedIn() ? (
-    <Redirect to='/'/>
-  ) : (
-    <Container maxWidth='lg'>
+  const renderPage = (randomWriting) => {
+    if (!writing) {
+      return (
+      <Container maxWidth='lg'>
+        <main>
+          <Box mt={4}>
+            <Typography variant='h4' component='h1' align='center'>There are no writings to vote on...</Typography>
+            <Typography variant='h6' component='h2' align='center'>Please check back later when other users have uploaded some writings.</Typography>
+          </Box>
+        </main>
+      </Container>
+      )
+    }
+
+    return (
+      <Container maxWidth='lg'>
 
       <Box py={2}>
-          <Typography variant='h3' component='h1' align='center'>
-            Vote on the writing...
+          <Typography variant='h4' component='h1' align='center'>
+            Vote on the writing
           </Typography>
       </Box>
 
@@ -237,5 +262,14 @@ export default function Vote () {
       </main>
 
     </Container>
+    )
+  }
+  // If user is not authenticated, redirect him to the homepage.
+  return !isSignedIn() ? (
+    <Redirect to='/'/>
+  ) : (
+    renderPage()
   )
 }
+
+export default withSnackbar(Vote)

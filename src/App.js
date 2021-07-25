@@ -8,6 +8,8 @@ import { createMuiTheme } from '@material-ui/core'
 import ThemeProvider from '@material-ui/styles/ThemeProvider'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
+import { SnackbarProvider } from 'notistack';
+
 import { AppContext } from './AppContext.js'
 
 import MyAppBar from './components/MyAppBar.js'
@@ -50,34 +52,36 @@ function App() {
     <>
       <AppContext>
         <ThemeProvider theme={appTheme}>
-        <CssBaseline/>
-        <Router>
-            <header>
-              <MyAppBar/>
-            </header>
-            <main>
-              <Switch>
-                <Route path="/login">
-                  <Login/>
-                </Route>
-                <Route path="/register">
-                  <Register/>
-                </Route>
-                <Route path="/dashboard">
-                  <Dashboard/>
-                </Route>
-                <Route path="/upload-writing">
-                  <UploadWriting/>
-                </Route>
-                <Route path="/vote">
-                  <Vote/>
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
-            </main>
-        </Router>
+          <SnackbarProvider maxSnack={1}>
+            <CssBaseline/>
+            <Router>
+                <header>
+                  <MyAppBar/>
+                </header>
+                <main>
+                  <Switch>
+                    <Route path="/login">
+                      <Login/>
+                    </Route>
+                    <Route path="/register">
+                      <Register/>
+                    </Route>
+                    <Route path="/dashboard">
+                      <Dashboard/>
+                    </Route>
+                    <Route path="/upload-writing">
+                      <UploadWriting/>
+                    </Route>
+                    <Route path="/vote">
+                      <Vote/>
+                    </Route>
+                    <Route path="/">
+                      <Home />
+                    </Route>
+                  </Switch>
+                </main>
+            </Router>
+          </SnackbarProvider> 
         </ThemeProvider>
       </AppContext>
     </>

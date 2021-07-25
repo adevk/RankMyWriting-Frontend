@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
-import { isSignedIn } from '../helper.js'
-import { useLocation } from 'react-router'
+import { isSignedIn } from '../helper-functions.js'
+import { useLocation, useHistory } from 'react-router'
 import DropDownMenu from './DropDownMenu'
 
 //TODO Fix appbar issue on smaller screens
@@ -50,13 +50,18 @@ const useStyles = makeStyles((theme) => ({
 export default function MyAppBar() {
   const classes = useStyles()
   const location = useLocation()
+  const history = useHistory()
   console.log(location.pathname)
 
   const logoutHandler = () => {
     localStorage.removeItem('authToken')
+    history.push({
+      pathname: '/home',
+      state: { loggedOut: true, message: 'You have signed out.' }
+    })
     // Refresh page and update states.
-    window.location.reload(false)
-  }
+/*     window.location.reload(false)
+ */  }
 
   const renderButtonOrMenu = () => {
     // If user is not signed in, render sign-in button.
