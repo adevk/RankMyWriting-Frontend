@@ -1,16 +1,17 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { Link as RouterLink, Redirect } from 'react-router-dom'
+import { Link as RouterLink, Redirect, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 
 import { useAppContext } from '../../../AppContext.js'
-import { isSignedIn } from '../../../helper.js'
+import { isSignedIn } from '../../../helper-functions.js'
+import { withSnackbar } from 'notistack';
 
 //TODO Give feedback messages on failed login.
 
@@ -33,13 +34,31 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Login () {
+function Login (props) {
   const appContext = useAppContext()
   const classes = useStyles()
   const history = useHistory()
+  const location = useLocation()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    if (location.state && location.state.fromRegisterPage) {
+      showSnackBar('success', location.state.message)
+      location.state.fromRegisterPage = false
+    }
+  })
+
+  const showSnackBar = (variant, message) => {
+    props.enqueueSnackbar(message, {
+      variant: variant,
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center'
+      }
+    })
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -50,6 +69,7 @@ export default function Login () {
     };
 
     try {
+      // Make a login request
       const response = await axios.post(
         `${appContext.apiURL}/users/login`,
         userObject,
@@ -60,15 +80,25 @@ export default function Login () {
         }
       )
       const token = response.data.token
+      // Store jwt token in browser.
       localStorage.setItem('authToken', token)
-      history.push('/dashboard')
+      // Redirect to dashboard page.
+      history.push({
+        pathname: '/dashboard',
+        state: { fromLoginPage: true, message: 'You have logged in successfully.' }
+      })
       // Refresh page and update states.
-      window.location.reload(false)
+      // window.location.reload(false)
     } catch (error) {
-      error.response && console.log(error.response.data.message)
+      // Show snackbar with error message.
+      error.response && props.enqueueSnackbar(error.response.data.message, {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center'
+        }
+      })
     }
-
-
   }
 
   return isSignedIn() ? (
@@ -128,3 +158,6 @@ export default function Login () {
     </Container>
   )
 }
+
+// Makes it possible to use to call snackbar functions within the component
+export default withSnackbar(Login)

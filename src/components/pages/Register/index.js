@@ -5,10 +5,12 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import axios from 'axios'
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 
-import { isSignedIn } from '../../../helper.js'
+import axios from 'axios'
+import { withSnackbar } from 'notistack';
+
+import { isSignedIn } from '../../../helper-functions.js'
 import { useAppContext } from '../../../AppContext.js'
 
 
@@ -27,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 //TODO Add feedback on registration (maybe redirection?)
 
-export default function Register () {
+function Register (props) {
   const classes = useStyles()
   const appContext = useAppContext()
+  const history = useHistory()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -41,16 +44,28 @@ export default function Register () {
       username: username,
       password: password
     };
-
+    
+    // Post user credentials to register account.
     axios.post(`${appContext.apiURL}/users/register`, userObject)
       .then((res) => {
-          console.log(res.data)
+        history.push({
+          pathname: '/login',
+          state: { fromRegisterPage: true, message: "You're account has been created.\nPlease sign in with your new account." }
+        })
       }).catch((error) => {
-          console.log(error.response.data.message)
-      });
-
+          showSnackBar('error', error.response.data.message)
+     })
   }
 
+  const showSnackBar = (variant, message) => {
+    props.enqueueSnackbar(message, {
+      variant: variant,
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center'
+      }
+    })
+  }
   return isSignedIn() ? (
     <Redirect to='/'/>
   ) : (
@@ -98,3 +113,6 @@ export default function Register () {
     </Container>
   )
 }
+
+
+export default withSnackbar(Register)

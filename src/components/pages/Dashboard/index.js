@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import axios from 'axios'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
@@ -9,7 +8,10 @@ import Button from '@material-ui/core/Button'
 import Link from '@material-ui/core/Link'
 import { Redirect } from 'react-router'
 
-import { isSignedIn } from '../../../helper'
+import axios from 'axios'
+import { withSnackbar } from 'notistack';
+
+import { isSignedIn } from '../../../helper-functions.js'
 import TextCard from '../../WritingCard'
 import { useAppContext } from '../../../AppContext.js'
 
@@ -21,16 +23,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Dashboard () {
+function Dashboard (props) {
   const appContext = useAppContext()
   const classes = useStyles()
+  const location = useLocation()
 
   const [writings, setWritings] = useState([])
   const [points, setPoints] = useState(0)
 
   useEffect(() => {
+    if (location.state && location.state.fromLoginPage) {
+      showSnackBar('success', location.state.message)
+    }
     fetchWritings()
   }, [])
+
+  const showSnackBar = (variant, message) => {
+    props.enqueueSnackbar(message, {
+      variant: variant,
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center'
+      }
+    })
+    location.state.fromLoginPage = false
+  }
 
   const fetchWritings = async () => {
     try {
@@ -45,7 +62,6 @@ export default function Dashboard () {
       )
       const writings = response.data.data
       setWritings(writings)
-      console.log(writings)
     } catch (error) {
       console.log(error.message)
     }
@@ -88,3 +104,5 @@ export default function Dashboard () {
     </Container>
   )
 }
+
+export default withSnackbar(Dashboard)
