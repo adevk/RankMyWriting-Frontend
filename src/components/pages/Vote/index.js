@@ -22,10 +22,6 @@ const defaultState = {
   convincingScore: DEFAULT_SCORE,
   engagingScore: DEFAULT_SCORE,
   comprehensibleScore: DEFAULT_SCORE,
-  isConversational: null,
-  isFormal: null,
-  isNegative: null,
-  isPositive: null,
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -78,9 +74,6 @@ function Vote (props) {
       comprehensible: state.comprehensibleScore,
       engaging: state.engagingScore,
       convincing: state.convincingScore,
-      conversational: state.isConversational,
-      positive: state.isPositive,
-      personal: state.isPersonal
     }
     try {
       const response = await axios.post(
@@ -200,50 +193,7 @@ function Vote (props) {
                   onChange={(e, newValue) => {
                     dispatch({type: 'SET_CONVINCING_SCORE', payload: newValue})
                   }}/>
-              </Box>
-              <Typography variant='h5' component='h2' align='center'>Tone</Typography>
-              <Box align='center' mt={2}>
-                <ButtonGroup disableElevation variant="contained" color="primary">
-                  <Button
-                    color={setColor(state.isFormal)}
-                    onClick={() => {
-                    dispatch({type: 'TOGGLE_FORMAL', payload: state.isFormal})
-                    }}>Formal
-                  </Button>
-                  <Button
-                    color={setColor(state.isConversational)}
-                    onClick={() => {
-                      dispatch({type: 'TOGGLE_CONVERSATIONAL', payload: state.isConversational})
-                    }}>Conversational
-                  </Button>
-                </ButtonGroup>
-              </Box>
-              <Box align='center' mt={2}>
-                <ButtonGroup disableElevation variant="contained" color="primary">
-                  <Button
-                    color={setColor(state.isNegative)}
-                    onClick={() => {
-                      dispatch({type: 'TOGGLE_NEGATIVE', payload: state.isNegative})
-                    }}>Negative
-                  </Button>
-                  <Button
-                    color={setColor(state.isPositive)}
-                    onClick={() => {
-                      dispatch({type: 'TOGGLE_POSITIVE', payload: state.isPositive})
-                    }}>Positive
-                  </Button>
-                </ButtonGroup>
-              </Box>
-              <Box align='center' mt={2}>
-                <ButtonGroup disableElevation variant="contained" color="primary">
-                  <Button color={setColor(state.isImpersonal)} onClick={() => {
-                    dispatch({type: 'TOGGLE_IMPERSONAL', payload: state.isImpersonal})
-                  }}>Impersonal</Button>
-                  <Button color={setColor(state.isPersonal)} onClick={() => {
-                    dispatch({type: 'TOGGLE_PERSONAL', payload: state.isPersonal})
-                  }}>Personal</Button>
-                </ButtonGroup>
-              </Box>
+              </Box>              
 
             </Box>
 

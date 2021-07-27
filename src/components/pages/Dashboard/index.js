@@ -12,7 +12,7 @@ import axios from 'axios'
 import { withSnackbar } from 'notistack';
 
 import { isSignedIn } from '../../../helper-functions.js'
-import TextCard from '../../WritingCard'
+import WritingCard from './WritingCard'
 import { useAppContext } from '../../../AppContext.js'
 
 const useStyles = makeStyles((theme) => ({
@@ -60,8 +60,10 @@ function Dashboard (props) {
           }
         }
       )
-      const writings = response.data.data
+      const writings = response.data.writings
+      const points = response.data.points
       setWritings(writings)
+      setPoints(points)
     } catch (error) {
       console.log(error.message)
     }
@@ -78,7 +80,7 @@ function Dashboard (props) {
             Points: {points}
           </Typography>
           <Link component={RouterLink} to="/vote" color="secondary" underline="always">
-            Get more
+            Vote and get more
           </Link>
         </div>
 
@@ -93,9 +95,9 @@ function Dashboard (props) {
 
       <main>
         <Grid container spacing={2}>
-          {writings.map(({_id, title, votes}) =>(
-            <Grid item xs={12} sm={6} md={4} key={_id}>
-              <TextCard title={title} votes={votes || 0}/>
+          {writings.map((writing) =>(
+            <Grid item xs={12} sm={6} md={4} key={writing._id}>
+              <WritingCard {...writing}/>
             </Grid>
           ))}
         </Grid>
