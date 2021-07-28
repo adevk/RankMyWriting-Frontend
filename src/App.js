@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import { createMuiTheme } from '@material-ui/core'
-import ThemeProvider from '@material-ui/styles/ThemeProvider'
+import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import { SnackbarProvider } from 'notistack';
@@ -20,6 +20,7 @@ import Login from './components/pages/Login/'
 import Dashboard from './components/pages/Dashboard/'
 import UploadWriting from './components/pages/UploadWriting/'
 import Vote from './components/pages/Vote/'
+import Settings from './components/pages/Settings'
 
 const appTheme = createMuiTheme({
   spacing: 8,
@@ -29,6 +30,11 @@ const appTheme = createMuiTheme({
     },
     secondary: {
       main: '#25D36A',
+    },
+    error: {
+      main: '#f44336',
+      dark: '#d32f2f',
+      contrastText: '#fff'
     },
     background: {
       default: '#ffffff'
@@ -51,7 +57,7 @@ function App() {
   return (
     <>
       <AppContext>
-        <ThemeProvider theme={appTheme}>
+        <MuiThemeProvider theme={appTheme}>
           <SnackbarProvider maxSnack={1}>
             <CssBaseline/>
             <Router>
@@ -75,6 +81,9 @@ function App() {
                     <Route path="/vote">
                       <Vote/>
                     </Route>
+                    <Route path="/settings">
+                      <Settings/>
+                    </Route>
                     <Route path="/">
                       <Home />
                     </Route>
@@ -82,7 +91,7 @@ function App() {
                 </main>
             </Router>
           </SnackbarProvider> 
-        </ThemeProvider>
+        </MuiThemeProvider>
       </AppContext>
     </>
   )
