@@ -58,8 +58,11 @@ function Vote (props) {
         }
       )
       const randomWriting = response.data.data
+      console.log('randomwrtiting: ' + randomWriting)
       if (randomWriting) {
         setWriting(randomWriting)
+      } else {
+        setWriting(null)
       }
     } catch (error) {
       console.log(error.message)
