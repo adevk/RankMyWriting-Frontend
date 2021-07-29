@@ -71,7 +71,7 @@ function Register (props) {
   ) : (
     <Container className={classes.container} maxWidth="xs">
         <Typography component="h1" variant="h5" align='center'>
-          Sign up
+          Create Account
         </Typography>
         <form className={classes.form} noValidate onSubmit={submitHandler}>
           <TextField
@@ -105,7 +105,7 @@ function Register (props) {
                 variant="contained"
                 color="primary"
                 className={classes.submit}>
-                  Sign up
+                  Register
               </Button>
             </Grid>
           </Grid>

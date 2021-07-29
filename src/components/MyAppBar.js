@@ -9,6 +9,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { isSignedIn } from '../helper-functions.js'
 import { useLocation, useHistory } from 'react-router'
 import DropDownMenu from './DropDownMenu'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 //TODO Fix appbar issue on smaller screens
 
@@ -27,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    fontWeight: 'bold',
+    color: theme.palette.primary.main
   },
   navLink: {
     color: 'primary',
@@ -51,6 +54,7 @@ export default function MyAppBar() {
   const classes = useStyles()
   const location = useLocation()
   const history = useHistory()
+  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
   console.log(location.pathname)
 
   const logoutHandler = () => {
@@ -59,15 +63,18 @@ export default function MyAppBar() {
       pathname: '/home',
       state: { loggedOut: true, message: 'You have signed out.' }
     })
-    // Refresh page and update states.
-/*     window.location.reload(false)
- */  }
+  }
+
+  const voteHandler = () => {
+    history.push('/vote')
+  }
 
   const renderButtonOrMenu = () => {
     // If user is not signed in, render sign-in button.
     if (!isSignedIn()) {
       // Don't render button if current page is sign-in page.
       if (location.pathname === '/login') return
+      // Otherwise, render button.
       return <Button
         variant='contained'
         color='primary'
@@ -75,15 +82,15 @@ export default function MyAppBar() {
         Sign in
       </Button>
     }
-
-    return <DropDownMenu className={classes.menu} logoutHandler={logoutHandler}/>
+    // If user is signed-in, render drop-down menu.
+    return <DropDownMenu className={classes.menu} logoutHandler={logoutHandler} voteHandler={voteHandler}/>
   }
 
   return (
     <div className={classes.root}>
       <AppBar position='static' color='default'>
         <Toolbar>
-          <Typography variant='h6' className={classes.title}>
+          <Typography variant='h6' component='h1' className={classes.title}>
             RankMyWriting
           </Typography>
           {
@@ -105,16 +112,19 @@ export default function MyAppBar() {
                   component={RouterLink} to='/dashboard'>
                   Dashboard
                 </Link>
-                <Button
-                  className={classes.voteButton}
-                  variant='outlined'
-                  color='secondary'
-                  disableElevation
-                  disableRipple
-                  disableFocusRipple
-                  component={RouterLink} to='/vote'>
-                  Vote
-                </Button>
+                {/*Don't show button on smaller screens.*/} 
+                {aboveSm && 
+                  <Button
+                    className={classes.voteButton}
+                    variant='outlined'
+                    color='secondary'
+                    disableElevation
+                    disableRipple
+                    disableFocusRipple
+                    component={RouterLink} to='/vote'>
+                    Vote
+                  </Button>
+                }
                 {renderButtonOrMenu()}
               </nav>
             )

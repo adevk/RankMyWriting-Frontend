@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: '120px',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -112,25 +112,13 @@ const UploadWriting = function (props) {
               onChange={(e) => setTitle(e.target.value)}/>
           </div>
 
-          <FormGroup row className={classes.checkboxGroup}>
-            <FormControlLabel
-              label='Test active'
-              control={
-                <Checkbox
-                  checked={active}
-                  color='primary'
-                  onChange={(e) => setActive(e.target.checked)}
-                />
-              }
-            />
-          </FormGroup>
-
-          <Button variant='contained'
-                  color='primary'
-                  component={RouterLink}
-                  to='/register'
-                  className={classes.button}
-                  onClick={submitHandler}>Submit
+          <Button 
+            className={classes.button}
+            variant='contained'
+            color='primary'
+            component={RouterLink}
+            to='/register'
+            onClick={submitHandler}>Submit
           </Button>
 
         </div>

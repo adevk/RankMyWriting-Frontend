@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsIcon from '@material-ui/icons/Settings'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SimpleMenu(props) {
+  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'));
+
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -44,7 +47,11 @@ export default function SimpleMenu(props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        onClick={handleClose}
       >
+        {!aboveSm && 
+          <MenuItem onClick={props.voteHandler}>Vote</MenuItem>
+        }
         <MenuItem onClick={props.logoutHandler}>Sign out</MenuItem>
       </Menu>
     </div>

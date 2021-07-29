@@ -114,7 +114,7 @@ function Login (props) {
         </Grid>
         <Grid item>
           <RouterLink to='/register' className={classes.link}>
-            <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Signup now.</Typography>
+            <Typography component="h2" variant='subtitle1' align='center' color='secondary'>Register now.</Typography>
           </RouterLink>
         </Grid>
       </Grid>

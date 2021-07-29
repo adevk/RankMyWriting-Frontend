@@ -9,7 +9,7 @@ import ScoreRow from './ScoreRow.js'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   topPart: {
     display: 'flex',
@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     margin: theme.spacing(2, 0)
+  },
+  textPart: {
+    overflow: 'scroll',
+    height: '200px',
   },
   scoreRow: {
     display: 'flex',
@@ -36,7 +40,7 @@ export default function WritingCard({title, text, votes, score}) {
           <Typography variant="subtitle1" color="primary">{votes} {votes === 1 ? 'vote' : 'votes'}</Typography>
         </div>
         <Divider className={classes.divider}/>
-        <Typography variant="body2" color="textSecondary" gutterBottom>
+        <Typography className={classes.textPart} variant="body2" color="textSecondary" noWrap={false} gutterBottom>
           {text}
         </Typography>
         <Divider className={classes.divider}/>
