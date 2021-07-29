@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import { createMuiTheme } from '@material-ui/core'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import { SnackbarProvider } from 'notistack';
@@ -57,8 +57,8 @@ function App() {
   return (
     <>
       <AppContext>
-        <MuiThemeProvider theme={appTheme}>
-          <SnackbarProvider maxSnack={1}>
+        <ThemeProvider theme={appTheme}>
+          <SnackbarProvider maxSnack={1} autoHideDuration={3000}>
             <CssBaseline/>
             <Router>
                 <header>
@@ -91,7 +91,7 @@ function App() {
                 </main>
             </Router>
           </SnackbarProvider> 
-        </MuiThemeProvider>
+        </ThemeProvider>
       </AppContext>
     </>
   )

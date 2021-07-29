@@ -4,7 +4,8 @@ import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Divider, Grid } from '@material-ui/core'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+
 
 import axios from 'axios'
 import { withSnackbar } from 'notistack';
@@ -39,8 +40,10 @@ const useStyles = makeStyles((theme) => ({
 function Vote (props) {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [writing, setWriting] = useState(null)
-  const appContext = useAppContext()
   const classes = useStyles()
+  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
+  const appContext = useAppContext()
+
 
   useEffect(() => {
     fetchRandomWritingForVoting()
@@ -133,7 +136,7 @@ function Vote (props) {
       <Container maxWidth='lg'>
 
       <Box py={2}>
-          <Typography variant='h4' component='h1' align='center'>
+          <Typography variant='h4' component='h1' align='center' underline>
             Vote on the writing
           </Typography>
       </Box>
@@ -144,7 +147,7 @@ function Vote (props) {
       <main>
         <Grid container p={2}>
           {/*Left side*/}
-          <Grid item xs>
+          <Grid item xs={12} sm>
             <Box px={4} mt={2}>
               <Typography variant='h4' component='h2' align='center'>{writing.title}</Typography>
               <Box my={2} px={1}>
@@ -153,12 +156,21 @@ function Vote (props) {
               <Typography variant='body'>{writing.text}</Typography>
             </Box>
           </Grid>
-          {/*Vertical divider*/}
+          {/*Only show horizontal divider on larger screens.*/} 
+          {aboveSm &&
           <Grid item xs={0}>
             <Divider orientation='vertical'/>
           </Grid>
+          }
+          
           {/*Right side*/}
-          <Grid item xs>
+          <Grid item xs={12} sm>
+            {/*Only show horizontal divider on smaller screens.*/} 
+            {!aboveSm &&
+              <Box py={2}>
+                <Divider mt={2}/>
+              </Box>
+            }
             <Box mt={2}>
               <Typography variant='h5' component='h2' align='center' gutterBottom>Attribute scores from 1-5</Typography>
               <Box mt={4} px={4}>

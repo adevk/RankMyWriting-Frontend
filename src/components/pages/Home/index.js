@@ -1,21 +1,27 @@
 import { React, useEffect } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import {Button} from "@material-ui/core";
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
-import { isSignedIn } from '../../../helper-functions.js'
 import image from './presentation_image.svg'
 import Hidden from '@material-ui/core/Hidden'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import { withSnackbar } from 'notistack';
+
+import { isSignedIn } from '../../../helper-functions.js'
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(6, 0)
+    [theme.breakpoints.down('sm')] : {
+      padding: theme.spacing(1, 0)
+    },
+    [theme.breakpoints.up('sm')] : {
+      padding: theme.spacing(6, 0)
+    }
   },
   column: {
     display: 'flex',
@@ -42,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
 function Home(props) {
   const classes = useStyles()
   const location = useLocation()
+  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
+
 
   useEffect(() => {
     if (location.state && location.state.loggedOut) {
@@ -65,12 +73,12 @@ function Home(props) {
       <Grid container>
         <Hidden smDown>
           <Grid item md={6} xs={12}>
-            <img src={image} alt='Image' className={classes.image}/>
+            <img src={image} alt='Startpage illustration' className={classes.image}/>
           </Grid>
         </Hidden>
         <Grid item md={6} xs={12} className={classes.column}>
-          <Typography variant='h3' align='center' gutterBottom>Wondering if your writing is good enough?</Typography>
-          <Typography variant='body1' align='center' paragraph gutterBottom>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+          <Typography variant={aboveSm ? 'h3' : 'h4'} align='center' gutterBottom>Wondering if your writing is good enough?</Typography>
+          <Typography variant='body1' align='center' paragraph gutterBottom>Create an account with us and you will be able upload your writings quick and easy, and receive opinions on your writings from people all over the world.</Typography>
           { // Only show register button if user is not logged in.
             !isSignedIn() &&
             <Button variant='contained'
