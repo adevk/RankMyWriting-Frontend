@@ -1,16 +1,12 @@
 import { useState } from 'react'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import makeStyles from '@material-ui/core/styles/makeStyles'
 import { useHistory } from 'react-router'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
 
 import axios from 'axios'
 
 import { useAppContext } from '../../../AppContext.js'
+import { deleteAuthToken, getAuthToken } from '../../../helper-functions.js'
 
 const useStyles = makeStyles((theme) => ({
   deleteButton: {
@@ -20,15 +16,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.error.dark
     }
   },
-  confirmDeleteBtn: {
+  confirmDeletionButton: {
     color: theme.palette.error.main,
     '&:hover': {
       color: theme.palette.error.dark,
     }
   }
-}));
+}))
 
-export default function DeleteAccountDialog() {
+const DeleteAccountDialog = () => {
   const [open, setOpen] = useState(false)
   const classes = useStyles()
   const history = useHistory()
@@ -49,12 +45,14 @@ export default function DeleteAccountDialog() {
         `${appContext.apiURL}/users/delete`,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getAuthToken()}`
           }
         }
       )
+      // If account deletion was successful.
       if (response.data.success) {
+        // Sign out.
         logoutHandler()
       }
     } catch (error) {
@@ -64,10 +62,10 @@ export default function DeleteAccountDialog() {
   }
 
   const logoutHandler = () => {
-    localStorage.removeItem('authToken')
+    deleteAuthToken()
     history.push({
       pathname: '/home',
-      state: { loggedOut: true, message: "You're account has been deleted successfully." }
+      state: {redirection: true, message: 'Your account has been deleted successfully.'}
     })
  }
 
@@ -98,5 +96,7 @@ export default function DeleteAccountDialog() {
         </DialogActions>
       </Dialog>
     </div>
-  );
+  )
 }
+
+export default DeleteAccountDialog

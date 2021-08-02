@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
+import { Menu, MenuItem, IconButton, Hidden } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,45 +13,44 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function SimpleMenu(props) {
-  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'));
-
+const DropDownMenu = (props) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget)
   }
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
 
   return (
     <div className={classes.root}>
       <IconButton
         className={classes.menuIconButton}
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <SettingsIcon color='primary'/>
+        aria-label='more'
+        aria-controls='long-menu'
+        aria-haspopup='true'
+        onClick={handleClick}>
+          <SettingsIcon color='primary'/>
       </IconButton>
       <Menu
-        id="simple-menu"
+        id='simple-menu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        onClick={handleClose}
-      >
-        {!aboveSm && 
+        onClick={handleClose}>
+        {/*Only show vote menu-item on smaller screens.*/}
+        <Hidden smUp>
           <MenuItem onClick={props.voteHandler}>Vote</MenuItem>
-        }
+        </Hidden>
         <MenuItem onClick={props.settingsHandler}>Settings</MenuItem>
         <MenuItem onClick={props.logoutHandler}>Sign out</MenuItem>
       </Menu>
     </div>
   )
 }
+
+export default DropDownMenu

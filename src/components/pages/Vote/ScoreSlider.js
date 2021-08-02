@@ -16,7 +16,6 @@ export const ScoreSlider = withStyles({
       boxShadow: 'inherit',
     },
   },
-  active: {},
   valueLabel: {
     left: 'calc(-50% + 4px)',
   },

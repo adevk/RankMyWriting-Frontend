@@ -1,16 +1,11 @@
-import { React, useState, useReducer, useEffect } from 'react';
-import { Redirect } from 'react-router'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Divider, Grid } from '@material-ui/core'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-
+import { React, useState, useReducer, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { Container, Grid, Box, Divider, Button, Typography, Hidden } from '@material-ui/core'
 
 import axios from 'axios'
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack'
 
-import { isSignedIn } from '../../../helper-functions.js'
+import { showSnackBar, getAuthToken } from '../../../helper-functions.js'
 import { reducer } from './reducer'
 import { useAppContext } from '../../../AppContext.js'
 import { ScoreSlider } from './ScoreSlider.js'
@@ -18,7 +13,8 @@ import { ScoreSlider } from './ScoreSlider.js'
 
 const marks = [...Array(6).keys()].map((num) => ({value: num, label: num}))
 
-const DEFAULT_SCORE = 3
+export const DEFAULT_SCORE = 3
+
 const defaultState = {
   convincingScore: DEFAULT_SCORE,
   engagingScore: DEFAULT_SCORE,
@@ -37,11 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Vote (props) {
+const Vote = (props) => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [writing, setWriting] = useState(null)
   const classes = useStyles()
-  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
   const appContext = useAppContext()
 
 
@@ -55,13 +50,13 @@ function Vote (props) {
         `${appContext.apiURL}/writings/random`,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getAuthToken()}`
           }
         }
       )
       const randomWriting = response.data.data
-      console.log('randomwrtiting: ' + randomWriting)
+      // If a random writing was fetched from backend.
       if (randomWriting) {
         setWriting(randomWriting)
       } else {
@@ -82,56 +77,25 @@ function Vote (props) {
       convincing: state.convincingScore,
     }
     try {
-      const response = await axios.post(
+      await axios.post(
         `${appContext.apiURL}/writings/${writingId}/vote`,
         voteObject,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getAuthToken()}`
           }
         }
       )
       dispatch({type: 'RESET_STATES'})
-      showSnackBar('success', 'You have successfully casted a vote on the writing.')
+      showSnackBar('success', 'You have successfully casted a vote on the writing.', props)
       await fetchRandomWritingForVoting()
     } catch (error) {
-      showSnackBar('error', error.response.data.message)
-      console.log(error.response.data.message)
+      showSnackBar('error', (error.response && error.response.data.message), props)
     }
   }
 
-  const showSnackBar = (variant, message) => {
-    props.enqueueSnackbar(message, {
-      variant: variant,
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'center'
-      }
-    })
-  }
-
-
-  const setColor = (stateVariable) => {
-    if (stateVariable === null)
-      return 'primary'
-    return stateVariable ? 'secondary' : 'primary'
-  }
-
-  const renderPage = (randomWriting) => {
-    if (!writing) {
-      return (
-      <Container maxWidth='lg'>
-        <main>
-          <Box mt={4}>
-            <Typography variant='h4' component='h1' align='center'>There are no writings to vote on...</Typography>
-            <Typography variant='h6' component='h2' align='center'>Please check back later when other users have uploaded some writings.</Typography>
-          </Box>
-        </main>
-      </Container>
-      )
-    }
-
+  const renderVotingPage = () => {
     return (
       <Container maxWidth='lg'>
 
@@ -156,21 +120,24 @@ function Vote (props) {
               <Typography variant='body'>{writing.text}</Typography>
             </Box>
           </Grid>
-          {/*Only show horizontal divider on larger screens.*/} 
-          {aboveSm &&
-          <Grid item xs={0}>
-            <Divider orientation='vertical'/>
-          </Grid>
-          }
+
+          {/*Only show vertical divider on larger screens.*/} 
+          <Hidden xsDown>
+            <Grid item xs={0}>
+              <Divider orientation='vertical'/>
+            </Grid>
+          </Hidden>
           
           {/*Right side*/}
           <Grid item xs={12} sm>
+
             {/*Only show horizontal divider on smaller screens.*/} 
-            {!aboveSm &&
+            <Hidden smUp>
               <Box py={2}>
                 <Divider mt={2}/>
               </Box>
-            }
+            </Hidden>
+
             <Box mt={2}>
               <Typography variant='h5' component='h2' align='center' gutterBottom>Attribute scores from 1-5</Typography>
               <Box mt={4} px={4}>
@@ -209,18 +176,19 @@ function Vote (props) {
                     dispatch({type: 'SET_CONVINCING_SCORE', payload: newValue})
                   }}/>
               </Box>              
-
             </Box>
-
           </Grid>
+
         </Grid>
 
 
       <Box my={6} align='center'>
-        <Button className={classes.voteButton} variant='contained'
-                  color='primary'
-                  to='/register'
-                  onClick={submitHandler}>Submit vote
+        <Button 
+          className={classes.voteButton} 
+          variant='contained'
+          color='primary'
+          onClick={submitHandler}>
+            Submit vote
         </Button>
       </Box>
 
@@ -229,11 +197,23 @@ function Vote (props) {
     </Container>
     )
   }
-  // If user is not authenticated, redirect him to the homepage.
-  return !isSignedIn() ? (
-    <Redirect to='/'/>
-  ) : (
-    renderPage()
+
+  const renderNoWritingPage = () => {
+    return (
+    <Container maxWidth='lg'>
+      <main>
+        <Box mt={4}>
+          <Typography variant='h4' component='h1' align='center'>There are no writings to vote on...</Typography>
+          <Typography variant='h6' component='h2' align='center'>Please check back later when other users have uploaded some writings.</Typography>
+        </Box>
+      </main>
+    </Container>
+    )
+  }
+
+  return (
+    // If a writing was received from backend, render voting page; otherwise, render message page.
+    writing ? renderVotingPage() : renderNoWritingPage()
   )
 }
 

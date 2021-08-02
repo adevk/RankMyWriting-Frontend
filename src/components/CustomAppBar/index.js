@@ -1,17 +1,11 @@
-import { React } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link'
-import { Link as RouterLink } from 'react-router-dom'
-import { isSignedIn } from '../helper-functions.js'
+import { React } from 'react'
 import { useLocation, useHistory } from 'react-router'
-import DropDownMenu from './DropDownMenu'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { Link as RouterLink } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles'
+import { AppBar, Toolbar, Typography, Button, Link, Hidden } from '@material-ui/core'
 
-//TODO Fix appbar issue on smaller screens
+import { isSignedIn, deleteAuthToken } from '../../helper-functions.js'
+import DropDownMenu from './DropDownMenu'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,44 +44,42 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function MyAppBar() {
+const CustomAppBar = () => {
   const classes = useStyles()
   const location = useLocation()
   const history = useHistory()
-  const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
-  console.log(location.pathname)
 
   const logoutHandler = () => {
-    localStorage.removeItem('authToken')
+    deleteAuthToken()
     history.push({
       pathname: '/home',
-      state: { loggedOut: true, message: 'You have signed out.' }
+      state: {redirection: true, message: 'You have signed out.'}
     })
   }
 
-  const voteHandler = () => {
-    history.push('/vote')
-  }
-
-  const settingsHandler = () => {
-    history.push('/settings')
-  }
 
   const renderButtonOrMenu = () => {
-    // If user is not signed in, render sign-in button.
     if (!isSignedIn()) {
       // Don't render button if current page is sign-in page.
       if (location.pathname === '/login') return
       // Otherwise, render button.
-      return <Button
-        variant='contained'
-        color='primary'
-        component={RouterLink} to='/login'>
-        Sign in
-      </Button>
+      return (
+        <Button
+          variant='contained'
+          color='primary'
+          component={RouterLink} to='/login'>
+            Sign in
+        </Button>
+      )
     }
     // If user is signed-in, render drop-down menu.
-    return <DropDownMenu className={classes.menu} logoutHandler={logoutHandler} voteHandler={voteHandler} settingsHandler={settingsHandler}/>
+    return (
+      <DropDownMenu 
+        className={classes.menu} 
+        logoutHandler={logoutHandler} 
+        voteHandler={() => history.push('/vote')} 
+        settingsHandler={() => history.push('/settings')}/>
+    )
   }
 
   return (
@@ -103,8 +95,9 @@ export default function MyAppBar() {
                 <Link
                   variant='button'
                   className={classes.navLink}
-                  component={RouterLink} to='/'>
-                  Home
+                  component={RouterLink} 
+                  to='/'>
+                    Home
                 </Link>
                 {renderButtonOrMenu()}
               </nav>
@@ -113,11 +106,12 @@ export default function MyAppBar() {
                 <Link
                   variant='button'
                   className={classes.navLink}
-                  component={RouterLink} to='/dashboard'>
-                  Dashboard
+                  component={RouterLink} 
+                  to='/dashboard'>
+                    Dashboard
                 </Link>
                 {/*Don't show button on smaller screens.*/} 
-                {aboveSm && 
+                <Hidden xsDown>
                   <Button
                     className={classes.voteButton}
                     variant='outlined'
@@ -125,17 +119,19 @@ export default function MyAppBar() {
                     disableElevation
                     disableRipple
                     disableFocusRipple
-                    component={RouterLink} to='/vote'>
-                    Vote
+                    component={RouterLink} 
+                    to='/vote'>
+                      Vote
                   </Button>
-                }
+                </Hidden>
                 {renderButtonOrMenu()}
               </nav>
             )
           }
-
         </Toolbar>
       </AppBar>
     </div>
-  );
+  )
 }
+
+export default CustomAppBar

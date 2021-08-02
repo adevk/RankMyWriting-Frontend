@@ -1,19 +1,14 @@
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-import { createMuiTheme } from '@material-ui/core'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { createMuiTheme, CssBaseline } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from 'notistack'
 
 import { AppContext } from './AppContext.js'
+import ProtectedRoute from './ProtectedRoute.js'
 
-import MyAppBar from './components/MyAppBar.js'
-
+import CustomAppBar from './components/CustomAppBar/index.js'
 import Home from './components/pages/Home/'
 import Register from './components/pages/Register/'
 import Login from './components/pages/Login/'
@@ -51,9 +46,7 @@ const appTheme = createMuiTheme({
   },
 })
 
-
-function App() {
-
+const App = () => {
   return (
     <>
       <AppContext>
@@ -62,29 +55,29 @@ function App() {
             <CssBaseline/>
             <Router>
                 <header>
-                  <MyAppBar/>
+                  <CustomAppBar/>
                 </header>
                 <main>
                   <Switch>
-                    <Route path="/login">
+                    <Route path='/login'>
                       <Login/>
                     </Route>
-                    <Route path="/register">
+                    <Route path='/register'>
                       <Register/>
                     </Route>
-                    <Route path="/dashboard">
+                    <ProtectedRoute path='/dashboard'>
                       <Dashboard/>
-                    </Route>
-                    <Route path="/upload-writing">
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/upload-writing'>
                       <UploadWriting/>
-                    </Route>
-                    <Route path="/vote">
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/vote'>
                       <Vote/>
-                    </Route>
-                    <Route path="/settings">
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/settings'>
                       <Settings/>
-                    </Route>
-                    <Route path="/">
+                    </ProtectedRoute>
+                    <Route path='/'>
                       <Home />
                     </Route>
                   </Switch>
@@ -97,4 +90,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

@@ -1,109 +1,71 @@
-import { React, useState, useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import { Divider, Grid } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
-import Link from '@material-ui/core/Link'
-import { Redirect } from 'react-router'
+import { React, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { Container, Divider, Grid } from '@material-ui/core'
 
 import axios from 'axios'
 import { withSnackbar } from 'notistack';
 
-import { isSignedIn } from '../../../helper-functions.js'
-import WritingCard from './WritingCard'
+import { getAuthToken, showSnackBar } from '../../../helper-functions.js'
 import { useAppContext } from '../../../AppContext.js'
+import WritingCard from './WritingCard.js'
+import TopSection from './TopSection.js'
 
-const useStyles = makeStyles((theme) => ({
-  topBar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '2rem'
-  }
-}));
 
-function Dashboard (props) {
+const Dashboard = (props) => {
   const appContext = useAppContext()
-  const classes = useStyles()
   const location = useLocation()
 
   const [writings, setWritings] = useState([])
   const [points, setPoints] = useState(0)
 
   useEffect(() => {
-    if (location.state && location.state.fromLoginPage) {
-      showSnackBar('success', location.state.message)
+    // If user was redirected from another page, show snackbar with the message sent.
+    if (location.state && location.state.redirection) {
+      showSnackBar('success', location.state.message, props)
+      location.state.redirection = false
     }
     fetchWritings()
   }, [])
 
-  const showSnackBar = (variant, message) => {
-    props.enqueueSnackbar(message, {
-      variant: variant,
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'center'
-      }
-    })
-    location.state.fromLoginPage = false
-  }
-
+  // Fetches all the user's writings from the backend.
   const fetchWritings = async () => {
     try {
       const response = await axios.get(
         `${appContext.apiURL}/writings/retrieve`,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getAuthToken()}`
           }
         }
       )
-      const writings = response.data.writings
-      const points = response.data.points
-      setWritings(writings)
-      setPoints(points)
+      const fetchedWritings = response.data.writings
+      const fetchedPoints = response.data.points
+      setWritings(fetchedWritings)
+      setPoints(fetchedPoints)
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  return !isSignedIn() ? (
-      <Redirect to='/'/>
-    ) : (
-    <Container maxWidth="lg">
+  return (
+      <Container maxWidth='lg'>
 
-      <div id="topbar" className={classes.topBar}>
-        <div id="textGroup">
-          <Typography variant="h6" color="textPrimary">
-            Points: {points}
-          </Typography>
-          <Link component={RouterLink} to="/vote" color="secondary" underline="always">
-            Vote and get more
-          </Link>
-        </div>
+        <TopSection points={points}/>
 
-        <RouterLink to='/upload-writing'>
-          <Button variant="contained" color="primary">
-            Add Writing
-          </Button>
-        </RouterLink>
-      </div>
+        <Divider/>
 
-      <Divider/>
+        <main>
+          <Grid container spacing={2}>
+            {writings.map((writing) =>(
+              <Grid item xs={12} sm={6} md={4} key={writing._id}>
+                <WritingCard {...writing}/>
+              </Grid>
+            ))}
+          </Grid>
+        </main>
 
-      <main>
-        <Grid container spacing={2}>
-          {writings.map((writing) =>(
-            <Grid item xs={12} sm={6} md={4} key={writing._id}>
-              <WritingCard {...writing}/>
-            </Grid>
-          ))}
-        </Grid>
-      </main>
-
-    </Container>
+      </Container>
   )
 }
 
