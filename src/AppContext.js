@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
 
-
-
-
 const Context = React.createContext()
 
 export const AppContext = ({children}) => {
 
   const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+
+  const authTokenString = 'authToken'
   
   return (
     <Context.Provider value={{apiURL}}>

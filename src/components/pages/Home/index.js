@@ -1,17 +1,13 @@
-import { React, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {Button} from "@material-ui/core";
-import Typography from '@material-ui/core/Typography'
-import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import { Link as RouterLink, useLocation } from 'react-router-dom'
-import image from './presentation_image.svg'
-import Hidden from '@material-ui/core/Hidden'
+import { React, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { Container, Button, Typography, Grid, Hidden } from '@material-ui/core'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 
 import { withSnackbar } from 'notistack';
 
-import { isSignedIn } from '../../../helper-functions.js'
+import { isSignedIn, showSnackBar } from '../../../helper-functions.js'
+import image from './presentation_image.svg'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +29,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4),
     width: '100%'
   },
-  button: {
-  },
   belowButton: {
     display: 'flex',
     padding: theme.spacing(1)
@@ -43,30 +37,20 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(0.5),
     textDecoration: 'none'
   }
-}));
+}))
 
-function Home(props) {
+const Home = (props) => {
   const classes = useStyles()
   const location = useLocation()
   const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
 
 
   useEffect(() => {
-    if (location.state && location.state.loggedOut) {
-      showSnackBar('success', location.state.message)
-      location.state.loggedOut = false
+    if (location.state && location.state.redirection) {
+      showSnackBar('success', location.state.message, props)
+      location.state.redirection = false
     }
   })
-
-  const showSnackBar = (variant, message) => {
-    props.enqueueSnackbar(message, {
-      variant: variant,
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'center'
-      }
-    })
-  }
 
   return (
     <Container maxWidth='md' className={classes.root}>
@@ -81,13 +65,14 @@ function Home(props) {
           <Typography variant='body1' align='center' paragraph gutterBottom>Create an account with us and you will be able upload your writings quick and easy, and receive opinions on your writings from people all over the world.</Typography>
           { // Only show register button if user is not logged in.
             !isSignedIn() &&
-            <Button variant='contained'
-                    color='primary'
-                    component={RouterLink}
-                    to='/register'
-                    className={classes.button}>
-              Register now
-            </Button>
+              <Button 
+                variant='contained'
+                color='primary'
+                component={RouterLink}
+                to='/register'
+                className={classes.button}>
+                  Register now
+              </Button>
           }
             <div className={classes.belowButton}>
               <Typography component="h2" variant='subtitle1' align='center'>Already have an account?</Typography>
@@ -98,7 +83,8 @@ function Home(props) {
         </Grid>
       </Grid>
     </Container>
-  );
+  )
 }
+// Makes it possible to use to call snackbar functions within the component
 
 export default withSnackbar(Home)
