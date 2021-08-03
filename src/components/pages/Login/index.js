@@ -24,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+/**
+ * The login page component.
+ * 
+ * @component
+ * 
+ * @property {object} props - Object containing the component's properties.
+ */
 const Login = (props) => {
   const appContext = useAppContext()
   const classes = useStyles()
@@ -40,8 +47,13 @@ const Login = (props) => {
     }
   })
 
-  const submitHandler = async (e) => {
-    e.preventDefault()
+  /**
+   * Submits the login form.
+   * 
+   * @param {Event} event - The event object.
+   */
+  const submitHandler = async (event) => {
+    event.preventDefault()
 
     const userObject = {
       username: username,

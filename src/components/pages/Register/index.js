@@ -22,7 +22,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-
+/**
+ * The register page component.
+ * 
+ * @component
+ * 
+ * @property {object} props - Object containing the component's properties.
+ */
 const Register = (props) => {
   const classes = useStyles()
   const appContext = useAppContext()
@@ -31,26 +37,29 @@ const Register = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const submitHandler = async (e) => {
-    e.preventDefault()
+  /**
+   * Submits the login form.
+   * 
+   * @param {Event} event - The event object.
+   */
+  const submitHandler = async (event) => {
+    event.preventDefault()
 
     const userObject = {
       username: username,
       password: password
     }
     
-    
-
-     try {
+    try {
       // Post user credentials to register account.
       await axios.post(`${appContext.apiURL}/users/register`, userObject)
       history.push({
         pathname: '/login',
         state: {redirection: true, message: 'Your account has been created.\nPlease sign in with your new account.'}
       })
-     } catch (error) {
+    } catch (error) {
       showSnackBar('error', (error.response && error.response.data.message), props)
-     }
+    }
   }
   
   // If user is already signed in, redirect to startpage.

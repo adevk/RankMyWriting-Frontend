@@ -10,7 +10,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-
+/**
+ * The top section of the dashboard, which shows a user's points.
+ * 
+ * @component
+ * 
+ * @property {number} points - A user's accumulated points.
+ */
 const TopSection = ({points}) => {
   const classes = useStyles()
 

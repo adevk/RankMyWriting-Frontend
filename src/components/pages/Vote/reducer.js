@@ -1,5 +1,11 @@
 import { DEFAULT_SCORE } from './index.js'
 
+/**
+ * Reducer for the voting page component.
+ * 
+ * @param {object} state - The reducer's state object.
+ * @param {object} action - The reducer's action object.
+ */
 export const reducer = (state, action) => {
   if (action.type === 'SET_COMPREHENSIBLE_SCORE') {
     return {...state, comprehensibleScore: action.payload}

@@ -1,6 +1,11 @@
 import withStyles from '@material-ui/core/styles/withStyles'
 import Slider from '@material-ui/core/Slider'
 
+/**
+   * A custom slider for scores.
+   * 
+   * @component
+   */
 export const ScoreSlider = withStyles({
   root: {
     height: 8,

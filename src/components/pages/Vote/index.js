@@ -30,9 +30,15 @@ const useStyles = makeStyles((theme) => ({
       borderWidth: 3
     }
   }
-}));
+}))
 
-
+/**
+ * The voting page component.
+ * 
+ * @component
+ * 
+ * @property {object} props - Object containing the component's properties.
+ */
 const Vote = (props) => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [writing, setWriting] = useState(null)
@@ -44,6 +50,9 @@ const Vote = (props) => {
     fetchRandomWritingForVoting()
   }, [])
 
+  /**
+   * Fetches a random writing for voting on.
+   */
   const fetchRandomWritingForVoting = async () => {
     try {
       const response = await axios.get(
@@ -67,6 +76,11 @@ const Vote = (props) => {
     }
   }
 
+  /**
+   * Handles submitting the vote.
+   * 
+   * @param {Event} event - The event object.
+   */
   const submitHandler = async (e) => {
     e.preventDefault()
 
@@ -95,6 +109,9 @@ const Vote = (props) => {
     }
   }
 
+  /**
+   * Renders the voting page.
+   */
   const renderVotingPage = () => {
     return (
       <Container maxWidth='lg'>
@@ -181,7 +198,6 @@ const Vote = (props) => {
 
         </Grid>
 
-
       <Box my={6} align='center'>
         <Button 
           className={classes.voteButton} 
@@ -198,6 +214,9 @@ const Vote = (props) => {
     )
   }
 
+  /**
+   * Renders page with message when there is no writing received from backend.
+   */
   const renderNoWritingPage = () => {
     return (
     <Container maxWidth='lg'>

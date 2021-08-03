@@ -2,7 +2,7 @@ import React from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Container, Box, Typography, Divider } from '@material-ui/core'
 
-import DeleteAccountDialog from './DeleteAccountDialog'
+import DeleteAccountDialogButton from './DeleteAccountDialogButton'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,9 +17,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
-const Settings = (props) => {
+/**
+ * The dasboard page component.
+ * 
+ * @component
+ */
+const Settings = () => {
   const classes = useStyles()
 
   return (
@@ -29,7 +32,7 @@ const Settings = (props) => {
       <Divider/>
       <Box mt={1} display='flex' flexDirection='column' alignItems='center'>
           <Typography variant='h5' component='h2' gutterBottom>Do you want to delete your account?</Typography>
-          <DeleteAccountDialog/>
+          <DeleteAccountDialogButton/>
       </Box>
     </Container>
   )
