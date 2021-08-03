@@ -39,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+/**
+ * The homepage component.
+ * 
+ * @component
+ * 
+ * @property {object} props - Object containing the component's properties.
+ */
 const Home = (props) => {
   const classes = useStyles()
   const location = useLocation()
@@ -85,6 +92,6 @@ const Home = (props) => {
     </Container>
   )
 }
-// Makes it possible to use to call snackbar functions within the component
 
+// Makes it possible to use to call snackbar functions within the component
 export default withSnackbar(Home)

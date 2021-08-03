@@ -25,15 +25,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const UploadWriting = function (props) {
+/**
+ * The upload-writing page component.
+ * 
+ * @component
+ * 
+ * @property {object} props - Object containing the component's properties.
+ */
+const UploadWriting = (props) => {
   const appContext = useAppContext()
   const classes = useStyles()
 
   const [text, setText] = useState('')
   const [title, setTitle] = useState('')
 
-  const submitHandler = async (e) => {
-    e.preventDefault()
+  /**
+   * Handles submitting the writing.
+   * 
+   * @param {Event} event - The event object.
+   */
+  const submitHandler = async (event) => {
+    event.preventDefault()
 
     const writingObject = {
       title: title,
@@ -58,7 +70,9 @@ const UploadWriting = function (props) {
     }
   }
 
-
+  /**
+   * Resets the components states.
+   */
   const resetStates = () => {
     setText('')
     setTitle('')

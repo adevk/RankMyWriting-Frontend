@@ -24,21 +24,34 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DeleteAccountDialog = () => {
+/**
+ * A dialog button that show a delete-account dialog.
+ * 
+ * @component
+ */
+const DeleteAccountDialogButton = () => {
   const [open, setOpen] = useState(false)
   const classes = useStyles()
   const history = useHistory()
   const appContext = useAppContext()
 
-
+  /**
+   * Handles clicks for opening dialog.
+   */
   const handleClickOpen = () => {
     setOpen(true);
   }
 
+  /**
+   * Closes dialog.
+   */
   const handleClose = () => {
     setOpen(false);
   }
 
+  /**
+   * Deletes user's account.
+   */
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
@@ -61,6 +74,9 @@ const DeleteAccountDialog = () => {
     handleClose()
   }
 
+  /**
+   * Handles logging out.
+   */
   const logoutHandler = () => {
     deleteAuthToken()
     history.push({
@@ -99,4 +115,4 @@ const DeleteAccountDialog = () => {
   )
 }
 
-export default DeleteAccountDialog
+export default DeleteAccountDialogButton

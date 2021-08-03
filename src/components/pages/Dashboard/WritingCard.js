@@ -25,6 +25,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+/**
+ * A card used to show a writing in the dashboard.
+ * 
+ * @component
+ * 
+ * @property {string} title - The title of the writing.
+ * @property {string} text - The writing's text.
+ * @property {number} votes - The number of votes the writing has received.
+ * @property {object} score - The average scores of all the attributes.
+ */
 const WritingCard = ({title, text, votes, score}) => {
   const classes = useStyles()
 

@@ -13,7 +13,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DropDownMenu = (props) => {
+/**
+ * A drop-down menu.
+ * 
+ * @component
+ * 
+ * @property {function} logoutHandler - Handles logging out.
+ * @property {function} settingsHandler - Redirects to settings page.
+ * @property {function} voteHandler - Redirects to voting page.
+ */
+const DropDownMenu = ({logoutHandler, settingsHandler, voteHandler}) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -44,10 +53,10 @@ const DropDownMenu = (props) => {
         onClick={handleClose}>
         {/*Only show vote menu-item on smaller screens.*/}
         <Hidden smUp>
-          <MenuItem onClick={props.voteHandler}>Vote</MenuItem>
+          <MenuItem onClick={voteHandler}>Vote</MenuItem>
         </Hidden>
-        <MenuItem onClick={props.settingsHandler}>Settings</MenuItem>
-        <MenuItem onClick={props.logoutHandler}>Sign out</MenuItem>
+        <MenuItem onClick={settingsHandler}>Settings</MenuItem>
+        <MenuItem onClick={logoutHandler}>Sign out</MenuItem>
       </Menu>
     </div>
   )

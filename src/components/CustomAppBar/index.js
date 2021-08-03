@@ -42,8 +42,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-
-
+/**
+ * The application appbar.
+ * 
+ * @component
+ */
 const CustomAppBar = () => {
   const classes = useStyles()
   const location = useLocation()

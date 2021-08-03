@@ -10,7 +10,13 @@ import { useAppContext } from '../../../AppContext.js'
 import WritingCard from './WritingCard.js'
 import TopSection from './TopSection.js'
 
-
+/**
+ * The dasboard page component.
+ * 
+ * @component
+ * 
+ * @property {object} props - Object containing the component's properties.
+ */
 const Dashboard = (props) => {
   const appContext = useAppContext()
   const location = useLocation()
@@ -27,7 +33,9 @@ const Dashboard = (props) => {
     fetchWritings()
   }, [])
 
-  // Fetches all the user's writings from the backend.
+  /**
+   * Fetches the user's writings from backend.
+   */
   const fetchWritings = async () => {
     try {
       const response = await axios.get(

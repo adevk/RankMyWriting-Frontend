@@ -46,6 +46,11 @@ const appTheme = createMuiTheme({
   },
 })
 
+/**
+ * The Application.
+ * 
+ * @component
+ */
 const App = () => {
   return (
     <>
