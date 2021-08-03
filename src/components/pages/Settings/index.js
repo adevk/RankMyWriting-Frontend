@@ -6,7 +6,7 @@ import DeleteAccountDialogButton from './DeleteAccountDialogButton'
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(4, 2),
+    padding: theme.spacing(4, 2)
   },
   deleteButton: {
     color: theme.palette.error.contrastText,
@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.error.dark
     }
   }
-}));
+}))
 
 /**
  * The dasboard page component.
- * 
+ *
  * @component
  */
 const Settings = () => {

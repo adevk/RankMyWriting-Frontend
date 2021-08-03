@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Container, Button, Typography, TextField } from '@material-ui/core'
 
 import axios from 'axios'
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack'
 
 import { showSnackBar, getAuthToken } from '../../../helper-functions.js'
 import { useAppContext } from '../../../AppContext.js'
@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * The upload-writing page component.
- * 
+ *
  * @component
- * 
+ *
  * @property {object} props - Object containing the component's properties.
  */
 const UploadWriting = (props) => {
@@ -41,7 +41,7 @@ const UploadWriting = (props) => {
 
   /**
    * Handles submitting the writing.
-   * 
+   *
    * @param {Event} event - The event object.
    */
   const submitHandler = async (event) => {
@@ -49,7 +49,7 @@ const UploadWriting = (props) => {
 
     const writingObject = {
       title: title,
-      text: text,
+      text: text
     }
 
     try {
@@ -104,7 +104,7 @@ const UploadWriting = (props) => {
               onChange={(e) => setTitle(e.target.value)}/>
           </div>
 
-          <Button 
+          <Button
             className={classes.button}
             variant='contained'
             color='primary'

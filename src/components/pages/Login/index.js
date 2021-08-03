@@ -11,24 +11,24 @@ import { isSignedIn, setAuthToken, showSnackBar } from '../../../helper-function
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(8, 4),
+    padding: theme.spacing(8, 4)
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%' // Fix IE 11 issue.
   },
   submit: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   link: {
     textDecoration: 'none'
-  },
+  }
 }))
 
 /**
  * The login page component.
- * 
+ *
  * @component
- * 
+ *
  * @property {object} props - Object containing the component's properties.
  */
 const Login = (props) => {
@@ -49,7 +49,7 @@ const Login = (props) => {
 
   /**
    * Submits the login form.
-   * 
+   *
    * @param {Event} event - The event object.
    */
   const submitHandler = async (event) => {
@@ -58,7 +58,7 @@ const Login = (props) => {
     const userObject = {
       username: username,
       password: password
-    };
+    }
 
     try {
       // Make a login request
@@ -67,7 +67,7 @@ const Login = (props) => {
         userObject,
         {
           header: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           }
         }
       )
@@ -77,7 +77,7 @@ const Login = (props) => {
       // Redirect to dashboard page.
       history.push({
         pathname: '/dashboard',
-        state: {redirection: true, message: 'You have signed in successfully.'}
+        state: { redirection: true, message: 'You have signed in successfully.' }
       })
     } catch (error) {
       // Show snackbar with error message.
@@ -86,9 +86,11 @@ const Login = (props) => {
   }
 
   // If user is already signed in, redirect to startpage.
-  return isSignedIn() ? (
+  return isSignedIn()
+    ? (
     <Redirect to='/'/>
-  ) : (
+      )
+    : (
     <Container className={classes.container} maxWidth='xs'>
       <Typography component='h1' variant='h5' align='center' gutterBottom>
         Sign in
@@ -133,7 +135,7 @@ const Login = (props) => {
         </Box>
       </form>
     </Container>
-  )
+      )
 }
 
 // Makes it possible to use to call snackbar functions within the component

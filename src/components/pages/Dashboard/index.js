@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { Container, Divider, Grid } from '@material-ui/core'
 
 import axios from 'axios'
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack'
 
 import { getAuthToken, showSnackBar } from '../../../helper-functions.js'
 import { useAppContext } from '../../../AppContext.js'
@@ -12,9 +12,9 @@ import TopSection from './TopSection.js'
 
 /**
  * The dasboard page component.
- * 
+ *
  * @component
- * 
+ *
  * @property {object} props - Object containing the component's properties.
  */
 const Dashboard = (props) => {
@@ -65,7 +65,7 @@ const Dashboard = (props) => {
 
         <main>
           <Grid container spacing={2}>
-            {writings.map((writing) =>(
+            {writings.map((writing) => (
               <Grid item xs={12} sm={6} md={4} key={writing._id}>
                 <WritingCard {...writing}/>
               </Grid>

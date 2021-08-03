@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { React, useState } from 'react'
 import { useHistory } from 'react-router'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
@@ -19,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
   confirmDeletionButton: {
     color: theme.palette.error.main,
     '&:hover': {
-      color: theme.palette.error.dark,
+      color: theme.palette.error.dark
     }
   }
 }))
 
 /**
  * A dialog button that show a delete-account dialog.
- * 
+ *
  * @component
  */
 const DeleteAccountDialogButton = () => {
@@ -39,14 +39,14 @@ const DeleteAccountDialogButton = () => {
    * Handles clicks for opening dialog.
    */
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpen(true)
   }
 
   /**
    * Closes dialog.
    */
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
 
   /**
@@ -81,9 +81,9 @@ const DeleteAccountDialogButton = () => {
     deleteAuthToken()
     history.push({
       pathname: '/home',
-      state: {redirection: true, message: 'Your account has been deleted successfully.'}
+      state: { redirection: true, message: 'Your account has been deleted successfully.' }
     })
- }
+  }
 
   return (
     <div>

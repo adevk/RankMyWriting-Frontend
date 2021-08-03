@@ -9,24 +9,23 @@ import { withSnackbar } from 'notistack'
 import { isSignedIn, showSnackBar } from '../../../helper-functions.js'
 import { useAppContext } from '../../../AppContext.js'
 
-
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(8, 4),
+    padding: theme.spacing(8, 4)
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%' // Fix IE 11 issue.
   },
   submit: {
-    marginTop: theme.spacing(2),
-  },
+    marginTop: theme.spacing(2)
+  }
 }))
 
 /**
  * The register page component.
- * 
+ *
  * @component
- * 
+ *
  * @property {object} props - Object containing the component's properties.
  */
 const Register = (props) => {
@@ -39,7 +38,7 @@ const Register = (props) => {
 
   /**
    * Submits the login form.
-   * 
+   *
    * @param {Event} event - The event object.
    */
   const submitHandler = async (event) => {
@@ -49,23 +48,25 @@ const Register = (props) => {
       username: username,
       password: password
     }
-    
+
     try {
       // Post user credentials to register account.
       await axios.post(`${appContext.apiURL}/users/register`, userObject)
       history.push({
         pathname: '/login',
-        state: {redirection: true, message: 'Your account has been created.\nPlease sign in with your new account.'}
+        state: { redirection: true, message: 'Your account has been created.\nPlease sign in with your new account.' }
       })
     } catch (error) {
       showSnackBar('error', (error.response && error.response.data.message), props)
     }
   }
-  
+
   // If user is already signed in, redirect to startpage.
-  return isSignedIn() ? (
+  return isSignedIn()
+    ? (
     <Redirect to='/'/>
-  ) : (
+      )
+    : (
     <Container className={classes.container} maxWidth='xs'>
         <Typography component='h1' variant='h5' align='center'>
           Create Account
@@ -106,7 +107,7 @@ const Register = (props) => {
         </Box>
         </form>
     </Container>
-  )
+      )
 }
 
 // Makes it possible to use to call snackbar functions within the component

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Card, CardContent, Typography, Divider } from '@material-ui/core'
 
@@ -6,7 +7,7 @@ import ScoreRow from './ScoreRow.js'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   topPart: {
     display: 'flex',
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textPart: {
     overflow: 'scroll',
-    height: '200px',
+    height: '200px'
   },
   scoreRow: {
     display: 'flex',
@@ -27,19 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * A card used to show a writing in the dashboard.
- * 
+ *
  * @component
- * 
- * @property {string} title - The title of the writing.
- * @property {string} text - The writing's text.
- * @property {number} votes - The number of votes the writing has received.
- * @property {object} score - The average scores of all the attributes.
  */
-const WritingCard = ({title, text, votes, score}) => {
+const WritingCard = ({ title, text, votes, score }) => {
   const classes = useStyles()
 
   return (
-    <Card className={classes.root}>      
+    <Card className={classes.root}>
       <CardContent>
         <div className={classes.topPart}>
           <Typography variant='h6'>{title}</Typography>
@@ -60,5 +56,18 @@ const WritingCard = ({title, text, votes, score}) => {
   )
 }
 
-export default WritingCard
+WritingCard.propTypes = {
+  /** The title of the writing. */
+  title: PropTypes.string.isRequired,
 
+  /** The writing's text. */
+  text: PropTypes.string.isRequired,
+
+  /** The number of votes the writing has received. */
+  votes: PropTypes.number.isRequired,
+
+  /** The average scores of all the attributes. */
+  score: PropTypes.object.isRequired
+}
+
+export default WritingCard

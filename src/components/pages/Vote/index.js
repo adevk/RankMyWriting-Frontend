@@ -10,15 +10,14 @@ import { reducer } from './reducer'
 import { useAppContext } from '../../../AppContext.js'
 import { ScoreSlider } from './ScoreSlider.js'
 
-
-const marks = [...Array(6).keys()].map((num) => ({value: num, label: num}))
+const marks = [...Array(6).keys()].map((num) => ({ value: num, label: num }))
 
 export const DEFAULT_SCORE = 3
 
 const defaultState = {
   convincingScore: DEFAULT_SCORE,
   engagingScore: DEFAULT_SCORE,
-  comprehensibleScore: DEFAULT_SCORE,
+  comprehensibleScore: DEFAULT_SCORE
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -34,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * The voting page component.
- * 
+ *
  * @component
- * 
+ *
  * @property {object} props - Object containing the component's properties.
  */
 const Vote = (props) => {
@@ -44,7 +43,6 @@ const Vote = (props) => {
   const [writing, setWriting] = useState(null)
   const classes = useStyles()
   const appContext = useAppContext()
-
 
   useEffect(() => {
     fetchRandomWritingForVoting()
@@ -78,7 +76,7 @@ const Vote = (props) => {
 
   /**
    * Handles submitting the vote.
-   * 
+   *
    * @param {Event} event - The event object.
    */
   const submitHandler = async (e) => {
@@ -88,7 +86,7 @@ const Vote = (props) => {
     const voteObject = {
       comprehensible: state.comprehensibleScore,
       engaging: state.engagingScore,
-      convincing: state.convincingScore,
+      convincing: state.convincingScore
     }
     try {
       await axios.post(
@@ -101,7 +99,7 @@ const Vote = (props) => {
           }
         }
       )
-      dispatch({type: 'RESET_STATES'})
+      dispatch({ type: 'RESET_STATES' })
       showSnackBar('success', 'You have successfully casted a vote on the writing.', props)
       await fetchRandomWritingForVoting()
     } catch (error) {
@@ -122,12 +120,12 @@ const Vote = (props) => {
           </Typography>
       </Box>
 
-      {/*Title divider*/}
+      {/* Title divider */}
       <Divider/>
 
       <main>
         <Grid container p={2}>
-          {/*Left side*/}
+          {/* Left side */}
           <Grid item xs={12} sm>
             <Box px={4} mt={2}>
               <Typography variant='h4' component='h2' align='center'>{writing.title}</Typography>
@@ -138,17 +136,17 @@ const Vote = (props) => {
             </Box>
           </Grid>
 
-          {/*Only show vertical divider on larger screens.*/} 
+          {/* Only show vertical divider on larger screens. */}
           <Hidden xsDown>
             <Grid item xs={0}>
               <Divider orientation='vertical'/>
             </Grid>
           </Hidden>
-          
-          {/*Right side*/}
+
+          {/* Right side */}
           <Grid item xs={12} sm>
 
-            {/*Only show horizontal divider on smaller screens.*/} 
+            {/* Only show horizontal divider on smaller screens. */}
             <Hidden smUp>
               <Box py={2}>
                 <Divider mt={2}/>
@@ -166,7 +164,7 @@ const Vote = (props) => {
                   max={5}
                   valueLabelDisplay='on'
                   onChange={(e, newValue) => {
-                    dispatch({type: 'SET_COMPREHENSIBLE_SCORE', payload: newValue})
+                    dispatch({ type: 'SET_COMPREHENSIBLE_SCORE', payload: newValue })
                   }}/>
               </Box>
               <Box mt={2} px={4}>
@@ -178,7 +176,7 @@ const Vote = (props) => {
                   max={5}
                   valueLabelDisplay='on'
                   onChange={(e, newValue) => {
-                    dispatch({type: 'SET_ENGAGING_SCORE', payload: newValue})
+                    dispatch({ type: 'SET_ENGAGING_SCORE', payload: newValue })
                   }}/>
               </Box>
               <Box mt={2} px={4}>
@@ -190,17 +188,17 @@ const Vote = (props) => {
                   max={5}
                   valueLabelDisplay='on'
                   onChange={(e, newValue) => {
-                    dispatch({type: 'SET_CONVINCING_SCORE', payload: newValue})
+                    dispatch({ type: 'SET_CONVINCING_SCORE', payload: newValue })
                   }}/>
-              </Box>              
+              </Box>
             </Box>
           </Grid>
 
         </Grid>
 
       <Box my={6} align='center'>
-        <Button 
-          className={classes.voteButton} 
+        <Button
+          className={classes.voteButton}
           variant='contained'
           color='primary'
           onClick={submitHandler}>

@@ -9,12 +9,12 @@ import DropDownMenu from './DropDownMenu'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   nav: {
     '& > *': {
       marginLeft: theme.spacing(2),
-      fontWeight: 600,
+      fontWeight: 600
     }
   },
   menu: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * The application appbar.
- * 
+ *
  * @component
  */
 const CustomAppBar = () => {
@@ -52,15 +52,20 @@ const CustomAppBar = () => {
   const location = useLocation()
   const history = useHistory()
 
+  /**
+   * Handles loggin out.
+   */
   const logoutHandler = () => {
     deleteAuthToken()
     history.push({
       pathname: '/home',
-      state: {redirection: true, message: 'You have signed out.'}
+      state: { redirection: true, message: 'You have signed out.' }
     })
   }
 
-
+  /**
+   * Renders sign-in button or menu, depending on if the user is logged in or not.
+   */
   const renderButtonOrMenu = () => {
     if (!isSignedIn()) {
       // Don't render button if current page is sign-in page.
@@ -77,10 +82,10 @@ const CustomAppBar = () => {
     }
     // If user is signed-in, render drop-down menu.
     return (
-      <DropDownMenu 
-        className={classes.menu} 
-        logoutHandler={logoutHandler} 
-        voteHandler={() => history.push('/vote')} 
+      <DropDownMenu
+        className={classes.menu}
+        logoutHandler={logoutHandler}
+        voteHandler={() => history.push('/vote')}
         settingsHandler={() => history.push('/settings')}/>
     )
   }
@@ -93,43 +98,45 @@ const CustomAppBar = () => {
             RankMyWriting
           </Typography>
           {
-            !isSignedIn() ? (
-              <nav className={classes.nav}>
-                <Link
-                  variant='button'
-                  className={classes.navLink}
-                  component={RouterLink} 
-                  to='/'>
-                    Home
-                </Link>
-                {renderButtonOrMenu()}
-              </nav>
-            ) : (
-              <nav className={classes.nav}>
-                <Link
-                  variant='button'
-                  className={classes.navLink}
-                  component={RouterLink} 
-                  to='/dashboard'>
-                    Dashboard
-                </Link>
-                {/*Don't show button on smaller screens.*/} 
-                <Hidden xsDown>
-                  <Button
-                    className={classes.voteButton}
-                    variant='outlined'
-                    color='secondary'
-                    disableElevation
-                    disableRipple
-                    disableFocusRipple
-                    component={RouterLink} 
-                    to='/vote'>
-                      Vote
-                  </Button>
-                </Hidden>
-                {renderButtonOrMenu()}
-              </nav>
-            )
+            !isSignedIn()
+              ? (
+                <nav className={classes.nav}>
+                  <Link
+                    variant='button'
+                    className={classes.navLink}
+                    component={RouterLink}
+                    to='/'>
+                      Home
+                  </Link>
+                  {renderButtonOrMenu()}
+                </nav>
+                )
+              : (
+                <nav className={classes.nav}>
+                  <Link
+                    variant='button'
+                    className={classes.navLink}
+                    component={RouterLink}
+                    to='/dashboard'>
+                      Dashboard
+                  </Link>
+                  {/* Don't show button on smaller screens. */}
+                  <Hidden xsDown>
+                    <Button
+                      className={classes.voteButton}
+                      variant='outlined'
+                      color='secondary'
+                      disableElevation
+                      disableRipple
+                      disableFocusRipple
+                      component={RouterLink}
+                      to='/vote'>
+                        Vote
+                    </Button>
+                  </Hidden>
+                  {renderButtonOrMenu()}
+                </nav>
+                )
           }
         </Toolbar>
       </AppBar>
