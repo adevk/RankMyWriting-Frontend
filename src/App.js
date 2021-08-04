@@ -24,7 +24,7 @@ const appTheme = createMuiTheme({
       main: '#432EEA'
     },
     secondary: {
-      main: '#25D36A',
+      main: '#25D36A'
     },
     error: {
       main: '#f44336',
@@ -41,14 +41,14 @@ const appTheme = createMuiTheme({
       root: {
         borderRadius: 50,
         fontWeight: 600
-      },
-    },
-  },
+      }
+    }
+  }
 })
 
 /**
  * The Application.
- * 
+ *
  * @component
  */
 const App = () => {
@@ -88,7 +88,7 @@ const App = () => {
                   </Switch>
                 </main>
             </Router>
-          </SnackbarProvider> 
+          </SnackbarProvider>
         </ThemeProvider>
       </AppContext>
     </>

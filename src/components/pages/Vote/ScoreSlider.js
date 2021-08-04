@@ -3,12 +3,12 @@ import Slider from '@material-ui/core/Slider'
 
 /**
    * A custom slider for scores.
-   * 
+   *
    * @component
    */
 export const ScoreSlider = withStyles({
   root: {
-    height: 8,
+    height: 8
   },
   thumb: {
     height: 24,
@@ -18,19 +18,19 @@ export const ScoreSlider = withStyles({
     marginTop: -8,
     marginLeft: -12,
     '&:focus, &:hover, &$active': {
-      boxShadow: 'inherit',
-    },
+      boxShadow: 'inherit'
+    }
   },
   valueLabel: {
-    left: 'calc(-50% + 4px)',
+    left: 'calc(-50% + 4px)'
   },
   track: {
-    height: 8,
+    height: 8
   },
   rail: {
-    height: 8,
+    height: 8
   },
   mark: {
-    height: 8,
-  },
+    height: 8
+  }
 })(Slider)

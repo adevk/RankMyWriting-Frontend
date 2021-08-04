@@ -1,3 +1,5 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Link, Button } from '@material-ui/core'
@@ -12,12 +14,10 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * The top section of the dashboard, which shows a user's points.
- * 
+ *
  * @component
- * 
- * @property {number} points - A user's accumulated points.
  */
-const TopSection = ({points}) => {
+const TopSection = ({ points }) => {
   const classes = useStyles()
 
   return (
@@ -38,6 +38,11 @@ const TopSection = ({points}) => {
       </RouterLink>
     </div>
   )
+}
+
+TopSection.propTypes = {
+  /** A user's accumulated points. */
+  points: PropTypes.number.isRequired
 }
 
 export default TopSection

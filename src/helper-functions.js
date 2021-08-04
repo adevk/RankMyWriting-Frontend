@@ -4,7 +4,7 @@ import { AUTH_TOKEN_STRING } from './constants.js'
  * Returns true if user is signed in.
  */
 export const isSignedIn = () => {
-  return localStorage.getItem(AUTH_TOKEN_STRING) ? true: false
+  return !!localStorage.getItem(AUTH_TOKEN_STRING)
 }
 
 /**
@@ -16,7 +16,7 @@ export const getAuthToken = () => {
 
 /**
  * Stores a jwt authentication token in the browser.
- * 
+ *
  * @param {string} authToken - The jwt authenication token to be stored in the browser.
  */
 export const setAuthToken = (authToken) => {
@@ -32,7 +32,7 @@ export const deleteAuthToken = () => {
 
 /**
  * Shows a snackbar with a message to the user.
- * 
+ *
  * @param {string} variant - The variant och the snackbar.
  * @param {string} message - The message that the snackbar will show.
  * @param {object} props - The props object of the component that will show the snackbar.

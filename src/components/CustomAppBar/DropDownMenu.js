@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Menu, MenuItem, IconButton, Hidden } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings'
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'inline-block',
+    display: 'inline-block'
   },
   menuIconButton: {
     padding: 0
@@ -15,14 +15,10 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * A drop-down menu.
- * 
+ *
  * @component
- * 
- * @property {function} logoutHandler - Handles logging out.
- * @property {function} settingsHandler - Redirects to settings page.
- * @property {function} voteHandler - Redirects to voting page.
  */
-const DropDownMenu = ({logoutHandler, settingsHandler, voteHandler}) => {
+const DropDownMenu = ({ logoutHandler, settingsHandler, voteHandler }) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -51,7 +47,7 @@ const DropDownMenu = ({logoutHandler, settingsHandler, voteHandler}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         onClick={handleClose}>
-        {/*Only show vote menu-item on smaller screens.*/}
+        {/* Only show vote menu-item on smaller screens. */}
         <Hidden smUp>
           <MenuItem onClick={voteHandler}>Vote</MenuItem>
         </Hidden>
@@ -60,6 +56,17 @@ const DropDownMenu = ({logoutHandler, settingsHandler, voteHandler}) => {
       </Menu>
     </div>
   )
+}
+
+DropDownMenu.propTypes = {
+  /** The children elements to which the context should be available. */
+  logoutHandler: PropTypes.func.isRequired,
+
+  /** Redirects to settings page. */
+  settingsHandler: PropTypes.func.isRequired,
+
+  /** Redirects to voting page. */
+  voteHandler: PropTypes.func.isRequired
 }
 
 export default DropDownMenu

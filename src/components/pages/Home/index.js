@@ -4,18 +4,17 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Container, Button, Typography, Grid, Hidden } from '@material-ui/core'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 
-import { withSnackbar } from 'notistack';
+import { withSnackbar } from 'notistack'
 
 import { isSignedIn, showSnackBar } from '../../../helper-functions.js'
 import image from './presentation_image.svg'
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.down('sm')] : {
+    [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(1, 0)
     },
-    [theme.breakpoints.up('sm')] : {
+    [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(6, 0)
     }
   },
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(4),
+    padding: theme.spacing(4)
   },
   image: {
     padding: theme.spacing(4),
@@ -41,16 +40,15 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * The homepage component.
- * 
+ *
  * @component
- * 
+ *
  * @property {object} props - Object containing the component's properties.
  */
 const Home = (props) => {
   const classes = useStyles()
   const location = useLocation()
   const aboveSm = useMediaQuery(theme => theme.breakpoints.up('sm'))
-
 
   useEffect(() => {
     if (location.state && location.state.redirection) {
@@ -72,7 +70,7 @@ const Home = (props) => {
           <Typography variant='body1' align='center' paragraph gutterBottom>Create an account with us and you will be able upload your writings quick and easy, and receive opinions on your writings from people all over the world.</Typography>
           { // Only show register button if user is not logged in.
             !isSignedIn() &&
-              <Button 
+              <Button
                 variant='contained'
                 color='primary'
                 component={RouterLink}
