@@ -1,6 +1,6 @@
 import { React, useState, useReducer, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Container, Grid, Box, Divider, Button, Typography, Hidden } from '@material-ui/core'
+import { Container, Grid, Box, Divider, Button, Typography, Hidden, CircularProgress } from '@material-ui/core'
 
 import axios from 'axios'
 import { withSnackbar } from 'notistack'
@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       borderWidth: 3
     }
+  },
+  progressContainer: {
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }))
 
@@ -41,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 const Vote = (props) => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [writing, setWriting] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const classes = useStyles()
   const appContext = useAppContext()
 
@@ -63,6 +70,8 @@ const Vote = (props) => {
         }
       )
       const randomWriting = response.data.data
+      // Set false as page is no longer loading.
+      setIsLoading(false)
       // If a random writing was fetched from backend.
       if (randomWriting) {
         setWriting(randomWriting)
@@ -228,10 +237,23 @@ const Vote = (props) => {
     )
   }
 
-  return (
+  /**
+   * Responsible for rendering the page depending on state.
+   */
+  const renderPage = () => {
+    // If the page is loading, show the loading indicator.
+    if (isLoading) {
+      return (
+        <Container className={classes.progressContainer}>
+          <CircularProgress/>
+        </Container>
+      )
+    }
     // If a writing was received from backend, render voting page; otherwise, render message page.
-    writing ? renderVotingPage() : renderNoWritingPage()
-  )
+    return writing ? renderVotingPage() : renderNoWritingPage()
+  }
+
+  return renderPage()
 }
 
 export default withSnackbar(Vote)

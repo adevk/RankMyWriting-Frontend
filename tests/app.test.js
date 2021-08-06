@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
-import { By, Key, Builder, until } from 'selenium-webdriver'
+import { By, Builder, until } from 'selenium-webdriver'
 
 describe('Web App', () => {
   let driver
