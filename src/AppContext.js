@@ -8,7 +8,7 @@ const Context = React.createContext()
  * @component
  */
 export const AppContext = ({ children }) => {
-  const apiURL = (process.env.NODE_ENV === 'production') ? 'https://cscloud7-201.lnu.se/api' : 'http://localhost:7003'
+  const apiURL = (process.env.NODE_ENV === 'production') ? process.env.REACT_APP_API_URL : `http://localhost:${process.env.REACT_APP_API_PORT || 7003}`
 
   return (
     <Context.Provider value={{ apiURL }}>
